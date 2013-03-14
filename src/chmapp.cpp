@@ -152,8 +152,7 @@ bool CHMApp::OnInit()
 
 	long xorig = 50, yorig = 50, width = 600, height = 450;
 	long sashPos = CONTENTS_MARGIN;
-	long fontSize = CHM_DEFAULT_FONT_SIZE;
-	wxString lastOpenedDir, normalFont, fixedFont;
+	wxString lastOpenedDir;
 
 #if !defined(__WXMAC__) && !defined(__WXMSW__)
 	_loc.Init();
@@ -172,10 +171,6 @@ bool CHMApp::OnInit()
 		config.Read(wxT("/Position/height"), &height);
 		config.Read(wxT("/Paths/lastOpenedDir"), 
 			    &lastOpenedDir);
-		config.Read(wxT("/Fonts/normalFontFace"), 
-			    &normalFont);
-		config.Read(wxT("/Fonts/fixedFontFace"), &fixedFont);
-		config.Read(wxT("/Fonts/size"), &fontSize);
 		config.Read(wxT("/Sash/leftMargin"), &sashPos);
 	}
 
@@ -185,12 +180,11 @@ bool CHMApp::OnInit()
 		fullAppPath = getAppPath(argv[0], wxGetCwd());
 
 	_frame = new CHMFrame(wxT("xCHM v. ") wxT(VERSION),
-				       lastOpenedDir, wxPoint(xorig, yorig), 
-				       wxSize(width, height), normalFont,
-				       fixedFont, static_cast<int>(fontSize),
-				       static_cast<int>(sashPos), fullAppPath,
-				       loadTopics, loadIndex);
-
+			      lastOpenedDir, wxPoint(xorig, yorig), 
+			      wxSize(width, height), 
+			      static_cast<int>(sashPos), fullAppPath,
+			      loadTopics, loadIndex);
+	
 	_frame->SetSizeHints(200, 200);
 	_frame->Show(TRUE);
 	SetTopWindow(_frame);

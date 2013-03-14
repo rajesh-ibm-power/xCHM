@@ -28,17 +28,11 @@
 
 
 CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
-				 const wxString& normalFont,
-				 const wxString& fixedFont,
-				 const int fontSize, CHMFrame* frame)
+				 CHMFrame* frame)
 	: wxAuiNotebook(parent, -1, wxDefaultPosition, wxDefaultSize,
 			wxAUI_NB_DEFAULT_STYLE | wxAUI_NB_TAB_FIXED_WIDTH),
-	  _tcl(tc), _frame(frame), _fonts_normal_face(normalFont),
-	  _fonts_fixed_face(fixedFont)
-{
-	for(int i = -3; i <= 3; ++i)
-		_fonts_sizes[i+3] = fontSize + i * 2;
-	
+	  _tcl(tc), _frame(frame)
+{	
 	wxAcceleratorEntry entries[2];  
 	entries[0].Set(wxACCEL_CTRL,   WXK_PAGEUP,     ID_PriorPage);
 	entries[1].Set(wxACCEL_CTRL,   WXK_PAGEDOWN,   ID_NextPage);
@@ -56,7 +50,6 @@ CHMHtmlWindow* CHMHtmlNotebook::CreateView()
 	CHMHtmlWindow * htmlWin = new CHMHtmlWindow(this, _tcl, _frame);
 	htmlWin->SetRelatedFrame(_frame, wxT("xCHM v. ") wxT(VERSION));
 	htmlWin->SetRelatedStatusBar(0);
-	htmlWin->SetFonts(_fonts_normal_face, _fonts_fixed_face, _fonts_sizes);
 
 	AddPage(htmlWin, _("(Empty page)"));
 	SetSelection(GetPageCount() - 1);
@@ -148,28 +141,6 @@ void CHMHtmlNotebook::CloseAllPagesExceptFirst()
 		DeletePage(1);
 
 	SetTabCtrlHeight(0);
-}
-
-
-void CHMHtmlNotebook::SetChildrenFonts(const wxString& normal_face,
-				       const wxString& fixed_face,
-				       const int *sizes)
-{
-	_fonts_normal_face = normal_face;
-	_fonts_fixed_face = fixed_face;
-
-	for(int i = 0; i < 7; ++i)
-		_fonts_sizes[i] = sizes[i];
-
-	size_t nPageCount = GetPageCount();
-
-	for(size_t nPage = 0; nPage < nPageCount; ++nPage) {
-		CHMHtmlWindow* chw = 
-			dynamic_cast<CHMHtmlWindow *>(GetPage(nPage));
-
-		if(chw)
-			chw->SetFonts(normal_face, fixed_face, sizes);
-	}
 }
 
 

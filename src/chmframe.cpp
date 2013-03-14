@@ -27,7 +27,6 @@
 #include <chmframe.h>
 #include <chminputstream.h>
 #include <chmhtmlwindow.h>
-#include <chmfontdialog.h>
 #include <chmsearchpanel.h>
 #include <chmindexpanel.h>
 #include <chmlistctrl.h>
@@ -126,16 +125,12 @@ const wxChar *about_txt = wxT("xCHM v. ") wxT(VERSION)
 
 CHMFrame::CHMFrame(const wxString& title, const wxString& booksDir, 
 		   const wxPoint& pos, const wxSize& size,
-		   const wxString& normalFont, const wxString& fixedFont,
-		   const int fontSize, const int sashPosition,
-		   const wxString& fullAppPath, bool loadTopics,
-		   bool loadIndex)
+		   const int sashPosition, const wxString& fullAppPath,
+		   bool loadTopics, bool loadIndex)
 	: wxFrame(NULL, -1, title, pos, size),
 	  _tcl(NULL), _sw(NULL), _menuFile(NULL), _tb(NULL), _ep(NULL),
 	  _nb(NULL), _cb(NULL), _csp(NULL), _cip(NULL), _openPath(booksDir), 
-	  _normalFonts(NULL), _fixedFonts(NULL), _normalFont(normalFont),
-	  _fixedFont(fixedFont), _fontSize(fontSize), _bookmarkSel(true),
-	  _bookmarksDeleted(false), _sashPos(sashPosition),
+	  _bookmarkSel(true), _bookmarksDeleted(false), _sashPos(sashPosition),
 	  _fullAppPath(fullAppPath), _loadTopics(loadTopics),
 	  _loadIndex(loadIndex), _fullScreen(false)
 {
@@ -159,9 +154,6 @@ CHMFrame::CHMFrame(const wxString& title, const wxString& booksDir,
 #endif
 
 	wxLogNull wln;
-	int sizes[7];
-	for(int i = -3; i <= 3; ++i)
-		sizes[i+3] = _fontSize + i * 2;
 
 	SetIcon(wxIcon(xchm_32_xpm));
 	SetMenuBar(CreateMenu());
@@ -191,9 +183,7 @@ CHMFrame::CHMFrame(const wxString& title, const wxString& booksDir,
 	_nb->Show(FALSE);
 
 	wxPanel* temp = CreateContentsPanel();
-	_nbhtml = new CHMHtmlNotebook(_sw, _tcl, _normalFont, _fixedFont,
-				      fontSize, this);
-	_nbhtml->SetChildrenFonts(_normalFont, _fixedFont, sizes);
+	_nbhtml = new CHMHtmlNotebook(_sw, _tcl, this);
 
 	_csp = new CHMSearchPanel(_nb, _tcl, _nbhtml);
 	_font = _tcl->GetFont();
@@ -215,8 +205,6 @@ CHMFrame::~CHMFrame()
 		_tcl->Unselect();
 
 	delete _ep;
-	delete _fixedFonts;
-	delete _normalFonts;
 }
 
 
@@ -252,63 +240,6 @@ void CHMFrame::OnOpen(wxCommandEvent& WXUNUSED(event))
 
 	_openPath = selection.BeforeLast(wxT('/'));
 	LoadCHM(selection);
-}
-
-
-void CHMFrame::OnChangeFonts(wxCommandEvent& WXUNUSED(event))
-{
-	wxLogNull wln;
-
-	// First time initialization only.
-	if(_normalFonts == NULL) {
-		wxFontEnumerator enu;
-		enu.EnumerateFacenames();
-		_normalFonts = new wxArrayString;
-
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 7
-		*_normalFonts = enu.GetFacenames();
-#else
-		*_normalFonts = *enu.GetFacenames();
-#endif
-		_normalFonts->Sort();
-	}
-
-	if(_fixedFonts == NULL) {
-		wxFontEnumerator enu;
-		enu.EnumerateFacenames(wxFONTENCODING_SYSTEM, TRUE);
-		_fixedFonts = new wxArrayString;
-
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 7
-		*_fixedFonts = enu.GetFacenames();
-#else
-		*_fixedFonts = *enu.GetFacenames();
-#endif
-		_fixedFonts->Sort();
-	}
-
-
-	assert(_normalFonts != NULL);
-	assert(_fixedFonts != NULL);
-
-	CHMFontDialog cfd(this, _normalFonts, _fixedFonts, _normalFont,
-			  _fixedFont, _fontSize);
-
-	if(cfd.ShowModal() == wxID_OK) {
-		
-		wxBusyCursor bc;
-
-		_nbhtml->SetChildrenFonts(_normalFont = cfd.NormalFont(), 
-				_fixedFont = cfd.FixedFont(),
-				cfd.Sizes());
-
-		_fontSize = *(cfd.Sizes() + 3);
-
-		wxString page = _nbhtml->GetCurrentPage()->GetOpenedPage();
-
-		if(page.IsEmpty())
-			_nbhtml->GetCurrentPage()
-				->LoadPage(wxT("memory:about.html"));
-	}
 }
 
 
@@ -406,11 +337,6 @@ void CHMFrame::OnPrint(wxCommandEvent& WXUNUSED(event))
 {
 	wxLogNull wln;
 
-        int sizes[7];
-	        for(int i = -3; i <= 3; ++i)
-	                sizes[i+3] = _fontSize + i * 2;
-			
-	_ep->SetFonts(_normalFont, _fixedFont, sizes);
 	_ep->PrintFile(_nbhtml->GetCurrentPage()->GetOpenedPage());
 }
 
@@ -992,9 +918,6 @@ void CHMFrame::SaveExitInfo()
 	config.Write(wxT("/Position/width"), width);
 	config.Write(wxT("/Position/height"), height);
 	config.Write(wxT("/Paths/lastOpenedDir"), _openPath);
-	config.Write(wxT("/Fonts/normalFontFace"), _normalFont);
-	config.Write(wxT("/Fonts/fixedFontFace"), _fixedFont);
-	config.Write(wxT("/Fonts/size"), _fontSize);
 	config.Write(wxT("/Sash/leftMargin"), sashPos);
 
 	config.SetPath(wxT("/Recent"));
@@ -1079,7 +1002,6 @@ BEGIN_EVENT_TABLE(CHMFrame, wxFrame)
 	EVT_MENU(ID_Quit,  CHMFrame::OnQuit)
 	EVT_MENU(ID_About, CHMFrame::OnAbout)
 	EVT_MENU(ID_Open, CHMFrame::OnOpen)
-	EVT_MENU(ID_Fonts, CHMFrame::OnChangeFonts)
 	EVT_MENU(ID_Home, CHMFrame::OnHome)
 	EVT_MENU(ID_Forward, CHMFrame::OnHistoryForward)
 	EVT_MENU(ID_Back, CHMFrame::OnHistoryBack)

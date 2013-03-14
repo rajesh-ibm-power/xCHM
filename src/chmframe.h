@@ -42,8 +42,6 @@ class CHMIndexPanel;
 class wxFileType;
 class CHMHtmlNotebook;
 
-//! Default font size for the wxHtmlWindow.
-#define CHM_DEFAULT_FONT_SIZE 12
 
 //! Default sash position.
 #define CONTENTS_MARGIN 170
@@ -106,9 +104,6 @@ public:
 	  directory just pass the empty string.
 	  \param pos The upper left corner of the frame.
 	  \param size The size of the frame.
-	  \param normalFont Name of the font face to use for normal text.
-	  \param fixedFont Name of the font face to use for fixed text.
-	  \param fontSize The font size.
 	  \param sashPosition Distance from the left of the frame to
 	  \param fullAppPath The absolute path to the executable of the process
 	  the end of the contents / search panel.
@@ -117,9 +112,6 @@ public:
 	*/
 	CHMFrame(const wxString& title, const wxString& booksDir,
 		 const wxPoint& pos, const wxSize& size,
-		 const wxString& normalFont = wxEmptyString,
-		 const wxString& fixedFont = wxEmptyString,
-		 const int fontSize = CHM_DEFAULT_FONT_SIZE,
 		 const int sashPosition = CONTENTS_MARGIN,
 		 const wxString& fullAppPath = wxEmptyString,
 		 bool loadTopics = true, bool loadIndex = true);
@@ -159,9 +151,6 @@ protected:
 
 	//! Called when the user wants to open a file.
 	void OnOpen(wxCommandEvent& event);
-
-	//! Called when the user wants to change the fonts.
-	void OnChangeFonts(wxCommandEvent& event);
 
 	//! Called when the user wants to see the default page.
 	void OnHome(wxCommandEvent& event);
@@ -253,11 +242,6 @@ private:
 	CHMIndexPanel* _cip;
 
 	wxString _openPath;
-	wxArrayString* _normalFonts;
-	wxArrayString* _fixedFonts;
-	wxString _normalFont;
-	wxString _fixedFont;
-	int _fontSize;
 	bool _bookmarkSel;
 	bool _bookmarksDeleted;
 	int _sashPos;	

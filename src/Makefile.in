@@ -72,11 +72,10 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_xchm_OBJECTS = chmapp.$(OBJEXT) chmfile.$(OBJEXT) \
 	chmframe.$(OBJEXT) chmfshandler.$(OBJEXT) \
-	chminputstream.$(OBJEXT) chmfontdialog.$(OBJEXT) \
-	chmhtmlnotebook.$(OBJEXT) chmsearchpanel.$(OBJEXT) \
-	chmhtmlwindow.$(OBJEXT) chmfinddialog.$(OBJEXT) \
-	chmindexpanel.$(OBJEXT) chmlistctrl.$(OBJEXT) \
-	spantag.$(OBJEXT) hhcparser.$(OBJEXT)
+	chminputstream.$(OBJEXT) chmhtmlnotebook.$(OBJEXT) \
+	chmsearchpanel.$(OBJEXT) chmhtmlwindow.$(OBJEXT) \
+	chmfinddialog.$(OBJEXT) chmindexpanel.$(OBJEXT) \
+	chmlistctrl.$(OBJEXT) hhcparser.$(OBJEXT)
 xchm_OBJECTS = $(am_xchm_OBJECTS)
 xchm_DEPENDENCIES =
 AM_V_P = $(am__v_P_@AM_V@)
@@ -262,14 +261,14 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/art
 xchm_SOURCES = chmapp.cpp chmfile.cpp chmframe.cpp chmfshandler.cpp \
-	chminputstream.cpp chmfontdialog.cpp chmhtmlnotebook.cpp \
-	chmsearchpanel.cpp chmhtmlwindow.cpp chmfinddialog.cpp \
-	chmindexpanel.cpp chmlistctrl.cpp spantag.cpp hhcparser.cpp
+	chminputstream.cpp chmhtmlnotebook.cpp chmsearchpanel.cpp \
+    chmhtmlwindow.cpp chmfinddialog.cpp chmindexpanel.cpp \
+    chmlistctrl.cpp hhcparser.cpp
 
 noinst_HEADERS = chmapp.h chmfile.h chmframe.h chmfshandler.h \
-	chminputstream.h chmfontdialog.h chmhtmlnotebook.h \
-	chmsearchpanel.h chmhtmlwindow.h bitfiddle.inl \
-	chmfinddialog.h chmindexpanel.h chmlistctrl.h hhcparser.h
+	chminputstream.h chmhtmlnotebook.h chmsearchpanel.h \
+    chmhtmlwindow.h bitfiddle.inl chmfinddialog.h chmindexpanel.h \
+    chmlistctrl.h hhcparser.h
 
 xchm_LDADD = @LINKOPT@ 
 all: all-am
@@ -361,7 +360,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/chmapp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/chmfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/chmfinddialog.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/chmfontdialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/chmframe.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/chmfshandler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/chmhtmlnotebook.Po@am__quote@
@@ -371,7 +369,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/chmlistctrl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/chmsearchpanel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hhcparser.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spantag.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

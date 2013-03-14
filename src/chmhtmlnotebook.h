@@ -50,9 +50,7 @@ class CHMHtmlNotebook : public wxAuiNotebook {
 
 public:
 	//! Constructor
-	CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
-			const wxString& normalFont, const wxString& fixedFont,
-			const int fontSize, CHMFrame* frame);
+	CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc, CHMFrame* frame);
 	
 	//! Add a notebook tab and display the specified URL
 	void AddHtmlView(const wxString& path,
@@ -69,11 +67,6 @@ public:
 
 	//! Close all pages except the first one
 	void CloseAllPagesExceptFirst();
-
-	//! Propagate font settings to the children
-	void SetChildrenFonts(const wxString& normal_face, 
-			      const wxString& fixed_face, 
-			      const int *sizes = NULL);
 
 	//! Called when user asks for a tab to close
 	void OnCloseTab(wxCommandEvent&);
@@ -100,9 +93,6 @@ protected:
 private:
 	wxTreeCtrl* _tcl;
 	CHMFrame *_frame;
-	wxString _fonts_normal_face;
-	wxString _fonts_fixed_face;
-	int _fonts_sizes[7];
 	DECLARE_EVENT_TABLE()
 };
 
