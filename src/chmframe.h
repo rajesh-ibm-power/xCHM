@@ -25,6 +25,7 @@
 
 #include <wx/wx.h>
 #include <wx/html/htmprint.h>
+#include <wx/webview.h>
 #include <wx/splitter.h>
 #include <wx/notebook.h>
 #include <wx/treectrl.h>
@@ -209,6 +210,7 @@ protected:
 
 	//! Called when the user types Ctrl-N.
 	void OnNewTab(wxCommandEvent& event);
+
 private:
 	//! Helper. Creates the menu.
 	wxMenuBar *CreateMenu();

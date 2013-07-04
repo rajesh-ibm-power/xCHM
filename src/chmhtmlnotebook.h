@@ -31,6 +31,7 @@
 enum {
 	ID_NextPage,
 	ID_PriorPage,
+	ID_OutOfFullScreen
 };
 
 // Forward declarations
@@ -88,8 +89,12 @@ protected:
 	//! Called when user asks for prior notebook page
 	void OnGoToPriorPage(wxCommandEvent&);
 
+	//! Called when user presses ESCAPE
+	void OnOutOfFullScreen(wxCommandEvent&);
+
 	//! Callback for the page changed wxWidgets event
 	void OnPageChanged(wxAuiNotebookEvent&);
+
 
 private:
 	wxTreeCtrl* _tcl;

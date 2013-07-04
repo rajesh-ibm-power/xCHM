@@ -32,7 +32,6 @@
 #include <chmhtmlnotebook.h>
 #include <chmfinddialog.h>
 #include <hhcparser.h>
-#include <wx/webview.h>
 #include <wx/fontenum.h>
 #include <wx/statbox.h>
 #include <wx/accel.h>
@@ -282,25 +281,13 @@ void CHMFrame::OnShowContents(wxCommandEvent& WXUNUSED(event))
 		
 		_sw->Unsplit(_nb);
 		_nb->Show(FALSE);
-	} else {		
-			
-		//if(_tcl->GetCount() >= 1) {
-			
-			_tb->ToggleTool(ID_Contents, TRUE);
-			_menuFile->Check(ID_Contents, TRUE);
 
-			_nb->Show(TRUE);
-			_sw->SplitVertically(_nb, _nbhtml, _sashPos);
-
-		/*} else {
-			_tb->ToggleTool(ID_Contents, FALSE);
-			_menuFile->Check(ID_Contents, FALSE);
-			
-			::wxMessageBox(_("Couldn't extract the book"
-				       " contents tree."), 
-				       _("No contents.."), 
-				       wxOK | wxICON_WARNING, this );
-	       }*/
+	} else {					
+		_tb->ToggleTool(ID_Contents, TRUE);
+		_menuFile->Check(ID_Contents, TRUE);
+		
+		_nb->Show(TRUE);
+		_sw->SplitVertically(_nb, _nbhtml, _sashPos);
 	}
 }
 
@@ -501,9 +488,18 @@ void CHMFrame::OnCloseWindow(wxCloseEvent& WXUNUSED(event))
 
 void CHMFrame::OnChar(wxKeyEvent& event)
 {
-	if(event.GetKeyCode() == WXK_F9) {
+	switch(event.GetKeyCode()) {
+
+	case WXK_F9:
+	{
 		wxCommandEvent dummy;
 		OnShowContents(dummy);
+		break;
+	}
+
+	case WXK_ESCAPE:
+		ToggleFullScreen(true);
+		break;
 	}
 
 	event.Skip();
@@ -580,6 +576,7 @@ bool CHMFrame::LoadContextID( const int contextID )
 					      + wxT("#xchm:") + 
 					      chmf->GetPageByCID(contextID));
 }
+
 
 void CHMFrame::UpdateCHMInfo()
 {
@@ -681,11 +678,9 @@ void CHMFrame::UpdateCHMInfo()
                         + title;
 
 		SetTitle(titleBarText);
-		//_nbhtml->GetCurrentPage()->SetRelatedFrame(this, titleBarText);
+
 	} else {
 		SetTitle(wxT("xCHM v. ") wxT(VERSION));
-		//_nbhtml->GetCurrentPage()
-		//	->SetRelatedFrame(this, wxT("xCHM v. ") wxT(VERSION));
 	}
 	
 	// if we have contents..
@@ -696,6 +691,7 @@ void CHMFrame::UpdateCHMInfo()
 			_menuFile->Check(ID_Contents, TRUE);
 			_tb->ToggleTool(ID_Contents, TRUE);
 		}
+
 	} else {
 
 		if(_sw->IsSplit()) {

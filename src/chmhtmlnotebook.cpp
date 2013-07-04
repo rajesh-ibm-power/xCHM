@@ -23,8 +23,8 @@
 
 
 #include <chmframe.h>
-//#include <chmhtmlwindow.h>
 #include <chmhtmlnotebook.h>
+//#include <wx/webviewfshandler.h>
 #include <wx/webview.h>
 
 
@@ -33,12 +33,15 @@ CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
 	: wxAuiNotebook(parent, -1, wxDefaultPosition, wxDefaultSize,
 			wxAUI_NB_DEFAULT_STYLE | wxAUI_NB_TAB_FIXED_WIDTH),
 	  _tcl(tc), _frame(frame)
-{	
-	wxAcceleratorEntry entries[2];  
+{
+	const int NO_ACCELERATOR_ENTRIES = 3;
+
+	wxAcceleratorEntry entries[NO_ACCELERATOR_ENTRIES];
 	entries[0].Set(wxACCEL_CTRL,   WXK_PAGEUP,     ID_PriorPage);
 	entries[1].Set(wxACCEL_CTRL,   WXK_PAGEDOWN,   ID_NextPage);
+	entries[2].Set(wxACCEL_NORMAL, WXK_ESCAPE,     ID_OutOfFullScreen);
 
-	wxAcceleratorTable accel(2, entries);
+	wxAcceleratorTable accel(NO_ACCELERATOR_ENTRIES, entries);
 	this->SetAcceleratorTable(accel);
 	SetTabCtrlHeight(0);
 
@@ -49,6 +52,11 @@ CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
 wxWebView* CHMHtmlNotebook::CreateView()
 {
 	wxWebView* htmlWin = wxWebView::New(this, wxID_ANY);
+
+	/*
+	htmlWin->RegisterHandler(wxSharedPtr<wxWebViewHandler>(
+					 new wxWebViewFSHandler("memory")));
+	*/
 
 	//htmlWin->SetRelatedFrame(_frame, wxT("xCHM v. ") wxT(VERSION));
 	//htmlWin->SetRelatedStatusBar(0);
@@ -126,10 +134,15 @@ void CHMHtmlNotebook::OnNewTab(wxCommandEvent& WXUNUSED(event))
 }
 
 
+void CHMHtmlNotebook::OnOutOfFullScreen(wxCommandEvent& WXUNUSED(event))
+{
+	_frame->ToggleFullScreen(true);
+}
+
+
 void CHMHtmlNotebook::OnChildrenTitleChanged(const wxString& title)
 {
 	// We assume the change occured in the currently displayed page
-	// TODO: detect in which page the change occured.
 	SetPageText(GetSelection(), title);
 }
 
@@ -169,6 +182,7 @@ void CHMHtmlNotebook::OnPageChanged(wxAuiNotebookEvent&)
 BEGIN_EVENT_TABLE(CHMHtmlNotebook, wxAuiNotebook)
 	EVT_MENU(ID_PriorPage, CHMHtmlNotebook::OnGoToPriorPage)
 	EVT_MENU(ID_NextPage, CHMHtmlNotebook::OnGoToNextPage)
+	EVT_MENU(ID_OutOfFullScreen, CHMHtmlNotebook::OnOutOfFullScreen)
 	EVT_AUINOTEBOOK_PAGE_CHANGED(wxID_ANY, CHMHtmlNotebook::OnPageChanged)
 END_EVENT_TABLE()
 
