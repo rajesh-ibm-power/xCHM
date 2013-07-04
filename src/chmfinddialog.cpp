@@ -21,7 +21,7 @@
 
 
 #include <chmfinddialog.h>
-#include <chmhtmlwindow.h>
+#include <wx/webview.h>
 #include <wx/checkbox.h>
 #include <wx/button.h>
 #include <wx/sizer.h>
@@ -29,7 +29,7 @@
 #include <wx/wx.h>
 
 
-CHMFindDialog::CHMFindDialog(wxWindow *parent, CHMHtmlWindow *toSearch)
+CHMFindDialog::CHMFindDialog(wxWindow *parent, wxWebView *toSearch)
 	: wxDialog(parent, -1, wxString(_("Find in page.."))),
 	  _html(toSearch), _cell(NULL)
 {
@@ -67,55 +67,25 @@ CHMFindDialog::CHMFindDialog(wxWindow *parent, CHMHtmlWindow *toSearch)
 
 
 void CHMFindDialog::OnFind(wxCommandEvent& WXUNUSED(event))
-{	
+{
 	_html->ClearSelection();
 
 	wxString sr = _text->GetLineText(0);
 	if (sr.IsEmpty())
 		return;
 
-	wxStringTokenizer tkz(sr, wxT(" \t\r\n"));
-	wxString word;
+	/*
+	wxWebViewFindFlags flags = wxWEBVIEW_FIND_HIGHLIGHT_RESULT
+		| wxWEBVIEW_FIND_WRAP;
+	
+	if(_case->IsChecked())
+		flags |= wxWEBVIEW_FIND_MATCH_CASE;
 
-	while(word.IsEmpty())
-		if(tkz.HasMoreTokens())
-			word = tkz.GetNextToken();
-
-	if(!_case->IsChecked())
-		word.MakeLower();
-
-	if(!_cell || word.Cmp(_currWord.c_str())) {
-		_cell = _html->FindFirst(_html->GetInternalRepresentation(),
-					 word, _whole->IsChecked(),
-					 _case->IsChecked());
-		_currWord = word;
-
-	} else {
-
-		if(_cell && _cell->GetNext()) 
-			_cell = _cell->GetNext();
-	        else {
-			while(_cell && !_cell->GetNext())
-				_cell = _cell->GetParent();
-
-			if(_cell)
-				_cell = _cell->GetNext();
-		}
-
-		if(!_cell)
-			return;
-
-		_cell = _html->FindNext(_cell, word, _whole->IsChecked(), 
-				       _case->IsChecked());
-
-		// Wrap around.
-		if(!_cell) {
-			_cell = _html->FindFirst(
-				_html->GetInternalRepresentation(),
-				word, _whole->IsChecked(),
-				_case->IsChecked());
-		}
-	}
+	if(_whole->IsChecked())
+		flags |= wxWEBVIEW_FIND_ENTIRE_WORD;
+	
+	_html->Find(sr, 0);
+	*/
 }
 
 

@@ -31,7 +31,7 @@
 
 // Forward declarations.
 class wxCheckBox;
-class CHMHtmlWindow;
+class wxWebView;
 
 
 //! Event IDs.
@@ -45,7 +45,7 @@ enum {
 class CHMFindDialog : public wxDialog {
 public:
 	//! Initializes the dialog.
-	CHMFindDialog(wxWindow *parent, CHMHtmlWindow *toSearch);
+	CHMFindDialog(wxWindow *parent, wxWebView *toSearch);
 
 	//! Sets the focus to the textbox.
 	void SetFocusToTextBox() { _text->SetFocusFromKbd(); }
@@ -58,8 +58,8 @@ protected:
 	void OnFind(wxCommandEvent& event);
 
 private:
-	CHMHtmlWindow* _html;
-	wxTextCtrl* _text;	
+	wxWebView* _html;
+	wxTextCtrl* _text;
 	wxCheckBox* _whole;
 	wxCheckBox* _case;
 	wxString _currWord;

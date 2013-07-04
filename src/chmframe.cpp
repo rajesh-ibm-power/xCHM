@@ -26,12 +26,13 @@
 
 #include <chmframe.h>
 #include <chminputstream.h>
-#include <wx/webview.h>
 #include <chmsearchpanel.h>
 #include <chmindexpanel.h>
 #include <chmlistctrl.h>
 #include <chmhtmlnotebook.h>
+#include <chmfinddialog.h>
 #include <hhcparser.h>
+#include <wx/webview.h>
 #include <wx/fontenum.h>
 #include <wx/statbox.h>
 #include <wx/accel.h>
@@ -351,19 +352,27 @@ void CHMFrame::OnHistFile(wxCommandEvent& event)
 
 void CHMFrame::OnFind(wxCommandEvent& event)
 {
-	//_nbhtml->GetCurrentPage()->OnFind(event);
+	if(!_nbhtml->GetCurrentPage())
+		return;
+
+	CHMFindDialog cfd(this, _nbhtml->GetCurrentPage());
+
+	cfd.CentreOnParent();
+	cfd.ShowModal();
+	cfd.SetFocusToTextBox();
+	cfd.Reset();
 }
 
 
 void CHMFrame::OnCloseTab(wxCommandEvent& event)
 {
-	//_nbhtml->OnCloseTab(event);
+	_nbhtml->OnCloseTab(event);
 }
 
 
 void CHMFrame::OnNewTab(wxCommandEvent& event)
 {
-	//_nbhtml->OnNewTab(event);
+	_nbhtml->OnNewTab(event);
 }
 
 

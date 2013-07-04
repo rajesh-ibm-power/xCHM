@@ -49,8 +49,6 @@ CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
 wxWebView* CHMHtmlNotebook::CreateView()
 {
 	wxWebView* htmlWin = wxWebView::New(this, wxID_ANY);
-	// , wxWebViewDefaultURLStr,
-	// wxDefaultPosition, wxSize(200,200));
 
 	//htmlWin->SetRelatedFrame(_frame, wxT("xCHM v. ") wxT(VERSION));
 	//htmlWin->SetRelatedStatusBar(0);
@@ -62,14 +60,12 @@ wxWebView* CHMHtmlNotebook::CreateView()
 
 
 void CHMHtmlNotebook::AddHtmlView(const wxString& path,
-				  const wxString& link)
+					const wxString& link)
 {
 	wxWebView* htmlWin = CreateView();
 	
-	if(htmlWin) {
-		//htmlWin->GetParser()->GetFS()->ChangePathTo(path);
+	if(htmlWin)
 		htmlWin->LoadURL(link);
-	}
 }
 
 

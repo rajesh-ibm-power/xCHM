@@ -251,6 +251,7 @@ void CHMHtmlWindow::OnCopy(wxCommandEvent& WXUNUSED(event))
 
 void CHMHtmlWindow::OnFind(wxCommandEvent& WXUNUSED(event))
 {
+	/*
 	if(!_fdlg) {
 		wxWindow* p = GetParent();
 		while(p->GetParent())
@@ -263,6 +264,7 @@ void CHMHtmlWindow::OnFind(wxCommandEvent& WXUNUSED(event))
 	_fdlg->ShowModal();
 	_fdlg->SetFocusToTextBox();
 	_fdlg->Reset();
+	*/
 }
 
 
