@@ -1,6 +1,6 @@
 /*
 
-  Copyright (C) 2003 - 2012  Razvan Cojocaru <rzvncj@gmail.com>
+  Copyright (C) 2003 - 2013  Razvan Cojocaru <rzvncj@gmail.com>
    XML-RPC/Context ID code contributed by Eamon Millman / PCI Geomatics
   <millman@pcigeomatics.com>
   Tree control icons code (and the icons) contributed by Fritz Elfert
@@ -376,9 +376,13 @@ void CHMFrame::OnNewTab(wxCommandEvent& event)
 }
 
 
-void CHMFrame::OnCopySelection(wxCommandEvent& event)
+void CHMFrame::OnCopySelection(wxCommandEvent&)
 {
-	//_nbhtml->GetCurrentPage()->OnCopy(event);
+	if(!_nbhtml->GetCurrentPage())
+		return;
+	
+	if(_nbhtml->GetCurrentPage()->CanCopy())
+		_nbhtml->GetCurrentPage()->Copy();
 }
 
 
@@ -520,8 +524,9 @@ bool CHMFrame::LoadCHM(const wxString& archive)
 	   !archive.Contains(wxT("#xchm:"))) {
 
 		wxFileSystem wfs;
-		std::auto_ptr<wxFSFile> p(wfs.OpenFile(wxString(wxT("file:")) + archive +
-			      wxT("#xchm:/")));
+		std::auto_ptr<wxFSFile> p(wfs.OpenFile(wxString(wxT("file:")) 
+						       + archive
+						       + wxT("#xchm:/")));
 	
 	        CHMFile *chmf = CHMInputStream::GetCache();
 
