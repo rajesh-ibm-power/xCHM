@@ -438,16 +438,18 @@ void CHMHtmlWindow::OnChar(wxKeyEvent& event)
 }
 
 
-void CHMHtmlWindow::OnSetTitle(const wxString& title)
+void CHMHtmlWindow::OnSetTitle(const wxString& /* title */)
 {
 	// Direct access to the notebook
 	// TODO: design a new event type
+	/*
 	CHMHtmlNotebook* parent = dynamic_cast<CHMHtmlNotebook*>(GetParent());
 
 	if(parent)
 		parent->OnChildrenTitleChanged(title);
 
 	wxHtmlWindow::OnSetTitle(title);
+	*/
 }
 
 

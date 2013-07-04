@@ -25,6 +25,7 @@
 #define __CHMHTMLNOTEBOOK_H_
 
 #include <wx/aui/auibook.h>
+#include <wx/webview.h>
 #include <wx/treectrl.h>
 
 
@@ -36,8 +37,6 @@ enum {
 
 // Forward declarations
 class CHMFrame;
-//class CHMHtmlWindow;
-class wxWebView;
 
 
 /*! 
@@ -65,7 +64,7 @@ public:
 	wxWebView* GetCurrentPage();
 
 	//! Callback for when a child's title changes
-	void OnChildrenTitleChanged(const wxString& title);
+	void OnTitleChanged(wxWebViewEvent& evt);
 
 	//! Close all pages except the first one
 	void CloseAllPagesExceptFirst();
@@ -94,7 +93,6 @@ protected:
 
 	//! Callback for the page changed wxWidgets event
 	void OnPageChanged(wxAuiNotebookEvent&);
-
 
 private:
 	wxTreeCtrl* _tcl;

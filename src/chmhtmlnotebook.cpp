@@ -25,7 +25,6 @@
 #include <chmframe.h>
 #include <chmhtmlnotebook.h>
 //#include <wx/webviewfshandler.h>
-#include <wx/webview.h>
 
 
 CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
@@ -45,7 +44,8 @@ CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
 	this->SetAcceleratorTable(accel);
 	SetTabCtrlHeight(0);
 
-	AddHtmlView(wxEmptyString, wxT("memory:about.html"));
+	//AddHtmlView(wxEmptyString, wxT("memory:about.html"));
+	AddHtmlView(wxEmptyString, wxT("http://www.google.com"));
 }
 
 
@@ -61,14 +61,19 @@ wxWebView* CHMHtmlNotebook::CreateView()
 	//htmlWin->SetRelatedFrame(_frame, wxT("xCHM v. ") wxT(VERSION));
 	//htmlWin->SetRelatedStatusBar(0);
 
+	Connect(htmlWin->GetId(), wxEVT_COMMAND_WEB_VIEW_TITLE_CHANGED,
+		wxWebViewEventHandler(CHMHtmlNotebook::OnTitleChanged),
+		NULL, this);
+
 	AddPage(htmlWin, _("(Empty page)"));
-	SetSelection(GetPageCount() - 1);
+	SetSelection(GetPageCount() - 1);	
+
 	return htmlWin;
 }
 
 
 void CHMHtmlNotebook::AddHtmlView(const wxString& path,
-					const wxString& link)
+				  const wxString& link)
 {
 	wxWebView* htmlWin = CreateView();
 	
@@ -140,13 +145,6 @@ void CHMHtmlNotebook::OnOutOfFullScreen(wxCommandEvent& WXUNUSED(event))
 }
 
 
-void CHMHtmlNotebook::OnChildrenTitleChanged(const wxString& title)
-{
-	// We assume the change occured in the currently displayed page
-	SetPageText(GetSelection(), title);
-}
-
-
 void CHMHtmlNotebook::CloseAllPagesExceptFirst()
 {
 	SetSelection(0);
@@ -176,6 +174,12 @@ void CHMHtmlNotebook::OnPageChanged(wxAuiNotebookEvent&)
 {
 	if(GetPageCount() == 1)
 		SetTabCtrlHeight(0);
+}
+
+
+void CHMHtmlNotebook::OnTitleChanged(wxWebViewEvent& evt)
+{
+	SetPageText(GetSelection(), evt.GetString());	
 }
 
 
