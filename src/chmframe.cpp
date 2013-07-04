@@ -47,7 +47,6 @@
 
 
 #define OPEN_HELP _("Open a CHM book.")
-#define FONTS_HELP _("Change fonts.")
 #define PRINT_HELP _("Print the page currently displayed.")
 #define CONTENTS_HELP _("Toggle table of contents.")
 #define HOME_HELP _("Go to the book's start page.")
@@ -718,7 +717,6 @@ wxMenuBar* CHMFrame::CreateMenu()
 
 	_menuFile->Append(ID_Open, _("&Open..\tCtrl-O"), OPEN_HELP);
 	_menuFile->Append(ID_Print, _("&Print page..\tCtrl-P"), PRINT_HELP);
-	_menuFile->Append(ID_Fonts, _("Fon&ts.."), FONTS_HELP);
 	_menuFile->AppendSeparator();
 	_menuFile->AppendCheckItem(ID_Contents, 
 				   _("&Show contents tree\tCtrl-S"),
@@ -950,7 +948,6 @@ namespace {
 #include <home.xpm>
 #include <helpicon.xpm>
 #include <htmsidep.xpm>
-#include <htmoptns.xpm>
 #include <copy.xpm>
 #include <find.xpm>
 #include <fullscreen.xpm>
@@ -964,8 +961,6 @@ bool CHMFrame::InitToolBar(wxToolBar *toolbar)
 			 OPEN_HELP);
 	toolbar->AddTool(ID_Print, _("Print .."), wxBitmap(print_xpm),
 			 PRINT_HELP);
-	toolbar->AddTool(ID_Fonts, _("Fonts .."), wxBitmap(htmoptns_xpm),
-			 FONTS_HELP);
 	toolbar->AddCheckTool(ID_Contents, _("Contents"),
 			      wxBitmap(htmsidep_xpm),
 			      wxBitmap(htmsidep_xpm), CONTENTS_HELP);

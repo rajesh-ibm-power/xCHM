@@ -61,7 +61,6 @@ enum
 	ID_Quit = 1,
 	ID_About,
 	ID_Open,
-	ID_Fonts,
 	ID_Print,
 	ID_Home,
 	ID_Forward,
