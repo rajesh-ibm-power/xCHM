@@ -151,7 +151,6 @@ CHMFrame::CHMFrame(const wxString& title, const wxString& booksDir,
 #ifdef __WXMAC__	
 	wxApp::s_macAboutMenuItemId = ID_About;
 #endif
-
 	wxLogNull wln;
 
 	SetIcon(wxIcon(xchm_32_xpm));
@@ -167,6 +166,7 @@ CHMFrame::CHMFrame(const wxString& title, const wxString& booksDir,
 	CreateStatusBar();
 	SetStatusText(_("Ready."));
 
+	wxFileSystem::AddHandler(new wxMemoryFSHandler);
 	wxBitmap bitmap(logo_xpm);
 	wxMemoryFSHandler::AddFile(wxT("logo.xpm"), bitmap, //wxBITMAP(logo), 
 				   wxBITMAP_TYPE_XPM);
@@ -257,12 +257,18 @@ void CHMFrame::OnHome(wxCommandEvent& WXUNUSED(event))
 
 void CHMFrame::OnHistoryForward(wxCommandEvent& WXUNUSED(event))
 {
+	if(!_nbhtml->GetCurrentPage())
+		return;
+
 	_nbhtml->GetCurrentPage()->GoForward();
 }
 
 
 void CHMFrame::OnHistoryBack(wxCommandEvent& WXUNUSED(event))
 {
+	if(!_nbhtml->GetCurrentPage())
+		return;
+
 	if(_nbhtml->GetCurrentPage()->CanGoBack())
 		_nbhtml->GetCurrentPage()->GoBack();
 	else {
@@ -336,7 +342,7 @@ void CHMFrame::OnHistFile(wxCommandEvent& event)
 }
 
 
-void CHMFrame::OnFind(wxCommandEvent& event)
+void CHMFrame::OnFind(wxCommandEvent& WXUNUSED(event))
 {
 	if(!_nbhtml->GetCurrentPage())
 		return;

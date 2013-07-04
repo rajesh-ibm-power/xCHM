@@ -74,9 +74,7 @@ void CHMFindDialog::OnFind(wxCommandEvent& WXUNUSED(event))
 	if (sr.IsEmpty())
 		return;
 
-	/*
-	wxWebViewFindFlags flags = wxWEBVIEW_FIND_HIGHLIGHT_RESULT
-		| wxWEBVIEW_FIND_WRAP;
+	int flags = wxWEBVIEW_FIND_HIGHLIGHT_RESULT | wxWEBVIEW_FIND_WRAP;
 	
 	if(_case->IsChecked())
 		flags |= wxWEBVIEW_FIND_MATCH_CASE;
@@ -85,7 +83,6 @@ void CHMFindDialog::OnFind(wxCommandEvent& WXUNUSED(event))
 		flags |= wxWEBVIEW_FIND_ENTIRE_WORD;
 	
 	_html->Find(sr, 0);
-	*/
 }
 
 

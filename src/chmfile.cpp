@@ -743,7 +743,7 @@ bool CHMFile::IsValidCID( const int contextID )
 	if( itr == _cidMap.end() )
 		return FALSE;
 
-	return TRUE;
+	return true;
 }
 
 

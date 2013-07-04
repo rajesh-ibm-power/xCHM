@@ -24,7 +24,7 @@
 
 #include <chmframe.h>
 #include <chmhtmlnotebook.h>
-//#include <wx/webviewfshandler.h>
+#include <wx/webviewfshandler.h>
 
 
 CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
@@ -44,8 +44,8 @@ CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
 	this->SetAcceleratorTable(accel);
 	SetTabCtrlHeight(0);
 
-	//AddHtmlView(wxEmptyString, wxT("memory:about.html"));
-	AddHtmlView(wxEmptyString, wxT("http://www.google.com"));
+	AddHtmlView(wxEmptyString, wxT("memory:about.html"));
+	//AddHtmlView(wxEmptyString, wxT("http://www.google.com"));
 }
 
 
@@ -53,15 +53,13 @@ wxWebView* CHMHtmlNotebook::CreateView()
 {
 	wxWebView* htmlWin = wxWebView::New(this, wxID_ANY);
 
-	/*
 	htmlWin->RegisterHandler(wxSharedPtr<wxWebViewHandler>(
 					 new wxWebViewFSHandler("memory")));
-	*/
 
 	//htmlWin->SetRelatedFrame(_frame, wxT("xCHM v. ") wxT(VERSION));
 	//htmlWin->SetRelatedStatusBar(0);
 
-	Connect(htmlWin->GetId(), wxEVT_COMMAND_WEB_VIEW_TITLE_CHANGED,
+	Connect(htmlWin->GetId(), wxEVT_WEBVIEW_TITLE_CHANGED,
 		wxWebViewEventHandler(CHMHtmlNotebook::OnTitleChanged),
 		NULL, this);
 
