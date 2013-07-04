@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: XChm Latvian\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-14 11:08+0200\n"
+"POT-Creation-Date: 2013-07-04 12:18+0300\n"
 "PO-Revision-Date: 2004-10-13 13:32+0300\n"
 "Last-Translator:  <>\n"
 "Language-Team: \n"
@@ -43,290 +43,266 @@ msgstr "Reģistrjūtīgs"
 msgid "Find next"
 msgstr "Meklēt tālāk"
 
-#: src/chmfinddialog.cpp:53 src/chmfontdialog.cpp:92
+#: src/chmfinddialog.cpp:53
 msgid "Cancel"
 msgstr "Atcelt"
 
-#: src/chmfontdialog.cpp:53
-msgid "Change fonts.."
-msgstr "Mainīt šriftu.."
-
-#: src/chmfontdialog.cpp:60
-msgid "Normal font:"
-msgstr "Normālais šrifts:"
-
-#: src/chmfontdialog.cpp:61
-msgid "Fixed font:"
-msgstr "Fiksētais šrifts:"
-
-#: src/chmfontdialog.cpp:62
-msgid "Font size:"
-msgstr "Izmērs:"
-
-#: src/chmfontdialog.cpp:80
-msgid "Preview:"
-msgstr "Caurskate:"
-
-#: src/chmfontdialog.cpp:90
-msgid "OK"
-msgstr "Ok"
-
-#: src/chmframe.cpp:49
+#: src/chmframe.cpp:48
 msgid "Open a CHM book."
 msgstr "Atvērt CHM grāmatu."
 
-#: src/chmframe.cpp:50
+#: src/chmframe.cpp:49
 msgid "Change fonts."
 msgstr "Burtu šrifti."
 
-#: src/chmframe.cpp:51
+#: src/chmframe.cpp:50
 msgid "Print the page currently displayed."
 msgstr "Drukāt šo lappusi."
 
-#: src/chmframe.cpp:52
+#: src/chmframe.cpp:51
 msgid "Toggle table of contents."
 msgstr ""
 
-#: src/chmframe.cpp:53
+#: src/chmframe.cpp:52
 msgid "Go to the book's start page."
 msgstr "Iet uz sākuma lappusi."
 
-#: src/chmframe.cpp:54
+#: src/chmframe.cpp:53
 msgid "Go forward in history. Per book."
 msgstr "Uz priekšu pa vēsturi."
 
-#: src/chmframe.cpp:55
+#: src/chmframe.cpp:54
 msgid "Back to the last visited page. Per book."
 msgstr "Atpakaļ uz pēdējo apmeklēto lapu."
 
-#: src/chmframe.cpp:56
+#: src/chmframe.cpp:55
 msgid "About the program."
 msgstr "Par programmu."
 
-#: src/chmframe.cpp:57
+#: src/chmframe.cpp:56
 #, fuzzy
 msgid "Copy selection."
 msgstr "&Kopēt iezīmēto"
 
-#: src/chmframe.cpp:58
+#: src/chmframe.cpp:57
 #, fuzzy
 msgid "Find word in page."
 msgstr "Meklēt šajā lappusē..."
 
-#: src/chmframe.cpp:59
+#: src/chmframe.cpp:58
 msgid "Toggle fullscreen mode."
 msgstr ""
 
-#: src/chmframe.cpp:60
+#: src/chmframe.cpp:59
 msgid "Close the current tab"
 msgstr ""
 
-#: src/chmframe.cpp:61
+#: src/chmframe.cpp:60
 #, fuzzy
 msgid "Open a new tab"
 msgstr "Atvērt CHM grāmatu."
 
-#: src/chmframe.cpp:62
+#: src/chmframe.cpp:61
 msgid "Associate the .chm file extension with xCHM."
 msgstr ""
 
-#: src/chmframe.cpp:177
+#: src/chmframe.cpp:169
 msgid "Ready."
 msgstr "Gatavs."
 
-#: src/chmframe.cpp:203 src/chmframe.cpp:1030
+#: src/chmframe.cpp:193 src/chmframe.cpp:953
 msgid "Contents"
 msgstr "Saturs"
 
-#: src/chmframe.cpp:204
+#: src/chmframe.cpp:194
 msgid "Index"
 msgstr "Indekss"
 
-#: src/chmframe.cpp:205 src/chmsearchpanel.cpp:50
+#: src/chmframe.cpp:195 src/chmsearchpanel.cpp:50
 msgid "Search"
 msgstr "Meklēt"
 
-#: src/chmframe.cpp:231
+#: src/chmframe.cpp:219
 msgid "About xCHM"
 msgstr "Par xCHM"
 
-#: src/chmframe.cpp:239
+#: src/chmframe.cpp:227
 msgid "Choose a file.."
 msgstr "Atvērt failu.."
 
-#: src/chmframe.cpp:385
+#: src/chmframe.cpp:316
 msgid "Confirm"
 msgstr ""
 
-#: src/chmframe.cpp:397
+#: src/chmframe.cpp:328
 msgid "Registration successful!"
 msgstr ""
 
-#: src/chmframe.cpp:398
+#: src/chmframe.cpp:329
 msgid "Done"
 msgstr ""
 
-#: src/chmframe.cpp:655
+#: src/chmframe.cpp:581
 msgid "Loading, please wait.."
 msgstr ""
 
-#: src/chmframe.cpp:777
+#: src/chmframe.cpp:703
 msgid "&Open..\tCtrl-O"
 msgstr "&Atvērt..\tCtrl-O"
 
-#: src/chmframe.cpp:778
+#: src/chmframe.cpp:704
 msgid "&Print page..\tCtrl-P"
 msgstr "&Druka..\tCtrl-P"
 
-#: src/chmframe.cpp:779
+#: src/chmframe.cpp:705
 #, fuzzy
 msgid "Fon&ts.."
 msgstr "Šrifti .."
 
-#: src/chmframe.cpp:782
+#: src/chmframe.cpp:708
 msgid "&Show contents tree\tCtrl-S"
 msgstr "A&ttēlot saturu\tCtrl-S"
 
-#: src/chmframe.cpp:788
+#: src/chmframe.cpp:714
 msgid "&Make xCHM the default CHM viewer"
 msgstr ""
 
-#: src/chmframe.cpp:794
+#: src/chmframe.cpp:720
 msgid "&Recent files"
 msgstr "Atvērt &skatītos"
 
-#: src/chmframe.cpp:806
+#: src/chmframe.cpp:732
 msgid "E&xit\tCtrl-X"
 msgstr "I&zeja\tCtrl-X"
 
-#: src/chmframe.cpp:807
+#: src/chmframe.cpp:733
 msgid "Quit the application."
 msgstr "Izeja no programmas."
 
-#: src/chmframe.cpp:811
+#: src/chmframe.cpp:737
 msgid "&Home\tCtrl-H"
 msgstr "&Starts\tCtrl-H"
 
-#: src/chmframe.cpp:812
+#: src/chmframe.cpp:738
 #, fuzzy
 msgid "For&ward\tAlt-RIGHT"
 msgstr "&Uz priekšu\tCtrl-W"
 
-#: src/chmframe.cpp:814
+#: src/chmframe.cpp:740
 #, fuzzy
 msgid "&Back\tAlt-LEFT"
 msgstr "&Atpakaļ\tCtrl-B"
 
-#: src/chmframe.cpp:817
+#: src/chmframe.cpp:743
 msgid "&About..\tF1"
 msgstr "&Par programmu..\tF1"
 
-#: src/chmframe.cpp:820
+#: src/chmframe.cpp:746
 #, fuzzy
 msgid "&Copy\tCtrl-C"
 msgstr "&Starts\tCtrl-H"
 
-#: src/chmframe.cpp:821
+#: src/chmframe.cpp:747
 #, fuzzy
 msgid "&Find..\tCtrl-F"
 msgstr "&Atvērt..\tCtrl-O"
 
-#: src/chmframe.cpp:823
+#: src/chmframe.cpp:749
 #, fuzzy
 msgid "&Close tab\tCtrl-W"
 msgstr "&Starts\tCtrl-H"
 
-#: src/chmframe.cpp:824
+#: src/chmframe.cpp:750
 #, fuzzy
 msgid "&New tab\tCtrl-T"
 msgstr "&Šrifti..\tCtrl-T"
 
-#: src/chmframe.cpp:827
+#: src/chmframe.cpp:753
 msgid "Toggle &fullscreen\tF11"
 msgstr ""
 
-#: src/chmframe.cpp:831
+#: src/chmframe.cpp:757
 msgid "&File"
 msgstr "&Fails"
 
-#: src/chmframe.cpp:832
+#: src/chmframe.cpp:758
 msgid "&View"
 msgstr ""
 
-#: src/chmframe.cpp:833
+#: src/chmframe.cpp:759
 msgid "&Edit"
 msgstr ""
 
-#: src/chmframe.cpp:834
+#: src/chmframe.cpp:760
 msgid "Hi&story"
 msgstr "&Vēsture"
 
-#: src/chmframe.cpp:835
+#: src/chmframe.cpp:761
 msgid "&Help"
 msgstr "Palī&gs"
 
-#: src/chmframe.cpp:856
+#: src/chmframe.cpp:782
 msgid "Bookmarks"
 msgstr "Grāmatzīmes"
 
-#: src/chmframe.cpp:873
+#: src/chmframe.cpp:799
 msgid "Topics"
 msgstr "Tēmas"
 
-#: src/chmframe.cpp:884
+#: src/chmframe.cpp:810
 msgid "Add"
 msgstr "Pievienot"
 
-#: src/chmframe.cpp:885
+#: src/chmframe.cpp:811
 msgid "Remove"
 msgstr "Dzēst"
 
-#: src/chmframe.cpp:888
+#: src/chmframe.cpp:814
 msgid "Add displayed page to bookmarks."
 msgstr "Pievienot lappusi grāmatzīmēm."
 
-#: src/chmframe.cpp:889
+#: src/chmframe.cpp:815
 msgid "Remove selected bookmark."
 msgstr "Dzēst izvēlēto grāmatzīmi."
 
-#: src/chmframe.cpp:1024
+#: src/chmframe.cpp:947
 msgid "Open .."
 msgstr "Atvērt .."
 
-#: src/chmframe.cpp:1026
+#: src/chmframe.cpp:949
 msgid "Print .."
 msgstr "Druka .."
 
-#: src/chmframe.cpp:1028
+#: src/chmframe.cpp:951
 msgid "Fonts .."
 msgstr "Šrifti .."
 
-#: src/chmframe.cpp:1035
+#: src/chmframe.cpp:958
 msgid "Copy"
 msgstr ""
 
-#: src/chmframe.cpp:1037
+#: src/chmframe.cpp:960
 #, fuzzy
 msgid "Find"
 msgstr "Meklēt tālāk"
 
-#: src/chmframe.cpp:1042
+#: src/chmframe.cpp:965
 msgid "Fullscreen"
 msgstr ""
 
-#: src/chmframe.cpp:1047
+#: src/chmframe.cpp:970
 msgid "Back"
 msgstr "Atpakaļ"
 
-#: src/chmframe.cpp:1048
+#: src/chmframe.cpp:971
 msgid "Forward"
 msgstr "Uz priekšu"
 
-#: src/chmframe.cpp:1050
+#: src/chmframe.cpp:973
 msgid "Home"
 msgstr "Starts"
 
-#: src/chmframe.cpp:1053
+#: src/chmframe.cpp:976
 msgid "About"
 msgstr "Par..."
 
@@ -410,6 +386,24 @@ msgstr "Meklēt tikai virsrakstos."
 #: src/chmsearchpanel.cpp:55
 msgid "Search contents for occurences of the specified text."
 msgstr "Meklēt frāzes, kas satur tekstu."
+
+#~ msgid "Change fonts.."
+#~ msgstr "Mainīt šriftu.."
+
+#~ msgid "Normal font:"
+#~ msgstr "Normālais šrifts:"
+
+#~ msgid "Fixed font:"
+#~ msgstr "Fiksētais šrifts:"
+
+#~ msgid "Font size:"
+#~ msgstr "Izmērs:"
+
+#~ msgid "Preview:"
+#~ msgstr "Caurskate:"
+
+#~ msgid "OK"
+#~ msgstr "Ok"
 
 #~ msgid "On or off?"
 #~ msgstr "Ieslēgt vai izslēgt?"

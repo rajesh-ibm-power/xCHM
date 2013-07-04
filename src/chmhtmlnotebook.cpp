@@ -23,8 +23,9 @@
 
 
 #include <chmframe.h>
-#include <chmhtmlwindow.h>
+//#include <chmhtmlwindow.h>
 #include <chmhtmlnotebook.h>
+#include <wx/webview.h>
 
 
 CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
@@ -45,11 +46,14 @@ CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
 }
 
 
-CHMHtmlWindow* CHMHtmlNotebook::CreateView()
+wxWebView* CHMHtmlNotebook::CreateView()
 {
-	CHMHtmlWindow * htmlWin = new CHMHtmlWindow(this, _tcl, _frame);
-	htmlWin->SetRelatedFrame(_frame, wxT("xCHM v. ") wxT(VERSION));
-	htmlWin->SetRelatedStatusBar(0);
+	wxWebView* htmlWin = wxWebView::New(this, wxID_ANY);
+	// , wxWebViewDefaultURLStr,
+	// wxDefaultPosition, wxSize(200,200));
+
+	//htmlWin->SetRelatedFrame(_frame, wxT("xCHM v. ") wxT(VERSION));
+	//htmlWin->SetRelatedStatusBar(0);
 
 	AddPage(htmlWin, _("(Empty page)"));
 	SetSelection(GetPageCount() - 1);
@@ -60,30 +64,31 @@ CHMHtmlWindow* CHMHtmlNotebook::CreateView()
 void CHMHtmlNotebook::AddHtmlView(const wxString& path,
 				  const wxString& link)
 {
-	CHMHtmlWindow* htmlWin = CreateView();
+	wxWebView* htmlWin = CreateView();
 	
 	if(htmlWin) {
-		htmlWin->GetParser()->GetFS()->ChangePathTo(path);
-		htmlWin->LoadPage(link);
+		//htmlWin->GetParser()->GetFS()->ChangePathTo(path);
+		htmlWin->LoadURL(link);
 	}
 }
 
 
 bool CHMHtmlNotebook::LoadPageInCurrentView(const wxString& location)
 {
-	return GetCurrentPage()->LoadPage(location);
+	GetCurrentPage()->LoadURL(location);
+	return true;
 }
 
 
 // TODO: this is a misleading named function with side effects. It's a no-no.
-CHMHtmlWindow* CHMHtmlNotebook::GetCurrentPage()
+wxWebView* CHMHtmlNotebook::GetCurrentPage()
 {
 	int selection = GetSelection();
 
 	if(selection == wxNOT_FOUND)
 		return CreateView();
 
-	return dynamic_cast<CHMHtmlWindow *>(
+	return dynamic_cast<wxWebView *>(
 		wxAuiNotebook::GetPage(selection));
 }
 

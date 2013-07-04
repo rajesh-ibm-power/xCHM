@@ -26,7 +26,7 @@
 
 #include <chmframe.h>
 #include <chminputstream.h>
-#include <chmhtmlwindow.h>
+#include <wx/webview.h>
 #include <chmsearchpanel.h>
 #include <chmindexpanel.h>
 #include <chmlistctrl.h>
@@ -258,14 +258,14 @@ void CHMFrame::OnHome(wxCommandEvent& WXUNUSED(event))
 
 void CHMFrame::OnHistoryForward(wxCommandEvent& WXUNUSED(event))
 {
-	_nbhtml->GetCurrentPage()->HistoryForward();
+	_nbhtml->GetCurrentPage()->GoForward();
 }
 
 
 void CHMFrame::OnHistoryBack(wxCommandEvent& WXUNUSED(event))
 {
-	if(_nbhtml->GetCurrentPage()->HistoryCanBack())
-		_nbhtml->GetCurrentPage()->HistoryBack();
+	if(_nbhtml->GetCurrentPage()->CanGoBack())
+		_nbhtml->GetCurrentPage()->GoBack();
 	else {
 		if(CHMInputStream::GetCache())
 			return;
@@ -337,7 +337,7 @@ void CHMFrame::OnPrint(wxCommandEvent& WXUNUSED(event))
 {
 	wxLogNull wln;
 
-	_ep->PrintFile(_nbhtml->GetCurrentPage()->GetOpenedPage());
+	_ep->PrintFile(_nbhtml->GetCurrentPage()->GetCurrentURL());
 }
 
 
@@ -351,25 +351,25 @@ void CHMFrame::OnHistFile(wxCommandEvent& event)
 
 void CHMFrame::OnFind(wxCommandEvent& event)
 {
-	_nbhtml->GetCurrentPage()->OnFind(event);
+	//_nbhtml->GetCurrentPage()->OnFind(event);
 }
 
 
 void CHMFrame::OnCloseTab(wxCommandEvent& event)
 {
-	_nbhtml->OnCloseTab(event);
+	//_nbhtml->OnCloseTab(event);
 }
 
 
 void CHMFrame::OnNewTab(wxCommandEvent& event)
 {
-	_nbhtml->OnNewTab(event);
+	//_nbhtml->OnNewTab(event);
 }
 
 
 void CHMFrame::OnCopySelection(wxCommandEvent& event)
 {
-	_nbhtml->GetCurrentPage()->OnCopy(event);
+	//_nbhtml->GetCurrentPage()->OnCopy(event);
 }
 
 
@@ -467,6 +467,7 @@ void CHMFrame::OnSelectionChanged(wxTreeEvent& event)
 	if(!data || data->_url.IsEmpty())
 		return;
 
+	/*
 	if(!_nbhtml->GetCurrentPage()->IsCaller()) {
 		_nbhtml->GetCurrentPage()->SetSync(false);
 		_nbhtml->LoadPageInCurrentView(wxString(wxT("file:")) + 
@@ -474,6 +475,7 @@ void CHMFrame::OnSelectionChanged(wxTreeEvent& event)
 					       wxT("#xchm:/") + data->_url);
 		_nbhtml->GetCurrentPage()->SetSync(true);
 	}
+	*/
 }
 
 
@@ -588,7 +590,7 @@ void CHMFrame::UpdateCHMInfo()
 			_menuFile->Enable(ID_Recent, TRUE);
 	}
 
-	_nbhtml->GetCurrentPage()->HistoryClear();
+	_nbhtml->GetCurrentPage()->ClearHistory();
 	_csp->Reset();
 	_cip->Reset();
 
@@ -666,11 +668,11 @@ void CHMFrame::UpdateCHMInfo()
                         + title;
 
 		SetTitle(titleBarText);
-		_nbhtml->GetCurrentPage()->SetRelatedFrame(this, titleBarText);
+		//_nbhtml->GetCurrentPage()->SetRelatedFrame(this, titleBarText);
 	} else {
 		SetTitle(wxT("xCHM v. ") wxT(VERSION));
-		_nbhtml->GetCurrentPage()
-			->SetRelatedFrame(this, wxT("xCHM v. ") wxT(VERSION));
+		//_nbhtml->GetCurrentPage()
+		//	->SetRelatedFrame(this, wxT("xCHM v. ") wxT(VERSION));
 	}
 	
 	// if we have contents..

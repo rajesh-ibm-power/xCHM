@@ -35,7 +35,8 @@ enum {
 
 // Forward declarations
 class CHMFrame;
-class CHMHtmlWindow;
+//class CHMHtmlWindow;
+class wxWebView;
 
 
 /*! 
@@ -60,7 +61,7 @@ public:
 	bool LoadPageInCurrentView(const wxString& location);
 
 	//! Returns the current page as a CHMHtmlWindow
-	CHMHtmlWindow* GetCurrentPage();
+	wxWebView* GetCurrentPage();
 
 	//! Callback for when a child's title changes
 	void OnChildrenTitleChanged(const wxString& title);
@@ -75,7 +76,7 @@ public:
 	void OnNewTab(wxCommandEvent& event);
 
 	//! Creates a new tab view
-	CHMHtmlWindow* CreateView();
+	wxWebView* CreateView();
 
 	//! Overload for tab height control
 	virtual bool AddPage(wxWindow* page, const wxString& title);
