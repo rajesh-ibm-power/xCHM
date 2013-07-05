@@ -69,6 +69,10 @@ public:
 	//! Callback for when the web view encounters an error
 	void OnLoadError(wxWebViewEvent& evt);
 
+	void OnNavigating(wxWebViewEvent& evt);
+	void OnNavigated(wxWebViewEvent& evt);
+	void OnLoaded(wxWebViewEvent& evt);
+
 	void OnIdle(wxIdleEvent& evt);
 
 	//! Close all pages except the first one

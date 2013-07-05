@@ -465,7 +465,7 @@ void CHMFrame::OnSelectionChanged(wxTreeEvent& event)
 
 	_nbhtml->LoadPageInCurrentView(wxString(wxT("file:")) + 
 				       chmf->ArchiveName() +
-				       wxT("#xchm/") + data->_url);
+				       wxT("#xchm:/") + data->_url);
 
 	/*
 	if(!_nbhtml->GetCurrentPage()->IsCaller()) {

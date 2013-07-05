@@ -71,9 +71,22 @@ wxWebView* CHMHtmlNotebook::CreateView()
 		wxWebViewEventHandler(CHMHtmlNotebook::OnLoadError),
 		NULL, this);
 
+	Connect(htmlWin->GetId(), wxEVT_WEBVIEW_NAVIGATING,
+		wxWebViewEventHandler(CHMHtmlNotebook::OnNavigating),
+		NULL, this);
+
+	Connect(htmlWin->GetId(), wxEVT_WEBVIEW_NAVIGATED,
+		wxWebViewEventHandler(CHMHtmlNotebook::OnNavigated),
+		NULL, this);
+
+	Connect(htmlWin->GetId(), wxEVT_WEBVIEW_LOADED,
+		wxWebViewEventHandler(CHMHtmlNotebook::OnLoaded),
+		NULL, this);
+
 	Connect(wxID_ANY, wxEVT_IDLE,
 		wxIdleEventHandler(CHMHtmlNotebook::OnIdle),
 		NULL, this);
+
 
 	AddPage(htmlWin, _("(Empty page)"));
 	SetSelection(GetPageCount() - 1);	
@@ -96,9 +109,11 @@ void CHMHtmlNotebook::AddHtmlView(const wxString& path,
 
 bool CHMHtmlNotebook::LoadPageInCurrentView(const wxString& location)
 {
-	if (GetCurrentPage()) {
-		std::cout << location.mb_str() << std::endl;
-		GetCurrentPage()->LoadURL(location);
+	wxWebView* htmlWin = GetCurrentPage();
+
+	if(htmlWin) {
+		htmlWin->Stop();
+		htmlWin->LoadURL(location);
 	}
 
 	return true;
@@ -195,7 +210,28 @@ void CHMHtmlNotebook::OnPageChanged(wxAuiNotebookEvent&)
 
 void CHMHtmlNotebook::OnTitleChanged(wxWebViewEvent& evt)
 {
-	SetPageText(GetSelection(), evt.GetString());	
+	SetPageText(GetSelection(), evt.GetString());
+}
+
+
+void CHMHtmlNotebook::OnNavigating(wxWebViewEvent& evt)
+{
+	std::cout << "Navigating: " << evt.GetURL().mb_str()
+		  << std::endl;
+}
+
+
+void CHMHtmlNotebook::OnNavigated(wxWebViewEvent& evt)
+{
+	std::cout << "Navigated: " << evt.GetURL().mb_str()
+		  << std::endl;
+}
+
+
+void CHMHtmlNotebook::OnLoaded(wxWebViewEvent& evt)
+{
+	std::cout << "Document loaded: " << evt.GetURL().mb_str()
+		  << std::endl;
 }
 
 
