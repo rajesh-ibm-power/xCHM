@@ -71,6 +71,10 @@ wxWebView* CHMHtmlNotebook::CreateView()
 		wxWebViewEventHandler(CHMHtmlNotebook::OnLoadError),
 		NULL, this);
 
+	Connect(wxID_ANY, wxEVT_IDLE,
+		wxIdleEventHandler(CHMHtmlNotebook::OnIdle),
+		NULL, this);
+
 	AddPage(htmlWin, _("(Empty page)"));
 	SetSelection(GetPageCount() - 1);	
 
@@ -218,6 +222,16 @@ void CHMHtmlNotebook::OnLoadError(wxWebViewEvent& evt)
 	std::cout << "Error; url='" << evt.GetURL().mb_str()
 		  << "', error='" << category.mb_str() << " ("
 		  << evt.GetString().mb_str() << ")'" << std::endl;
+}
+
+
+void CHMHtmlNotebook::OnIdle(wxIdleEvent& WXUNUSED(evt))
+{
+	if(GetCurrentPage()->IsBusy()) {
+		wxSetCursor(wxCURSOR_ARROWWAIT);
+	} else {
+		wxSetCursor(wxNullCursor);
+	}
 }
 
 

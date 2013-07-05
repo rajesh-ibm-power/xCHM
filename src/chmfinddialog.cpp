@@ -31,7 +31,7 @@
 
 CHMFindDialog::CHMFindDialog(wxWindow *parent, wxWebView *toSearch)
 	: wxDialog(parent, -1, wxString(_("Find in page.."))),
-	  _html(toSearch), _cell(NULL)
+	  _html(toSearch), _cell(NULL), _matchCase(false), _wholeWord(false)
 {
 	wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 	
@@ -66,23 +66,42 @@ CHMFindDialog::CHMFindDialog(wxWindow *parent, wxWebView *toSearch)
 }
 
 
+CHMFindDialog::~CHMFindDialog()
+{
+	_html->Find(wxEmptyString);
+}
+
+
 void CHMFindDialog::OnFind(wxCommandEvent& WXUNUSED(event))
 {
-	_html->ClearSelection();
+	wxLogNull log;
 
 	wxString sr = _text->GetLineText(0);
 	if (sr.IsEmpty())
-		return;
+		return;	
 
 	int flags = wxWEBVIEW_FIND_HIGHLIGHT_RESULT | wxWEBVIEW_FIND_WRAP;
+
+	bool reset = (_case->IsChecked() != _matchCase)
+		|| (_whole->IsChecked() != _wholeWord)
+		|| (_searchTerm != sr);
+
+	_matchCase = _case->IsChecked();
+	_wholeWord = _whole->IsChecked();
+	_searchTerm = sr;
 	
-	if(_case->IsChecked())
+	if(_matchCase)
 		flags |= wxWEBVIEW_FIND_MATCH_CASE;
 
-	if(_whole->IsChecked())
+	if(_wholeWord)
 		flags |= wxWEBVIEW_FIND_ENTIRE_WORD;
-	
-	_html->Find(sr, 0);
+
+	if(reset) {	
+		_html->Find(wxEmptyString);
+		_html->Find(sr, flags);
+	}
+
+	_html->Find(sr, flags);
 }
 
 

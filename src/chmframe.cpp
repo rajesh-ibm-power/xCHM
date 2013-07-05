@@ -463,12 +463,17 @@ void CHMFrame::OnSelectionChanged(wxTreeEvent& event)
 	if(!data || data->_url.IsEmpty())
 		return;
 
-	/*if(!_nbhtml->GetCurrentPage()->IsCaller()) {
-	  _nbhtml->GetCurrentPage()->SetSync(false); */
+	_nbhtml->LoadPageInCurrentView(wxString(wxT("file:")) + 
+				       chmf->ArchiveName() +
+				       wxT("#xchm/") + data->_url);
+
+	/*
+	if(!_nbhtml->GetCurrentPage()->IsCaller()) {
+		_nbhtml->GetCurrentPage()->SetSync(false); 
 		_nbhtml->LoadPageInCurrentView(wxString(wxT("file:")) + 
 					       chmf->ArchiveName() +
-					       wxT("#xchm:/") + data->_url);
-		/*_nbhtml->GetCurrentPage()->SetSync(true);
+					       wxT("#xchm:/") + data->_url); 
+		_nbhtml->GetCurrentPage()->SetSync(true);
 	}
 	*/
 }

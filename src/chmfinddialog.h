@@ -47,6 +47,8 @@ public:
 	//! Initializes the dialog.
 	CHMFindDialog(wxWindow *parent, wxWebView *toSearch);
 
+	~CHMFindDialog();
+
 	//! Sets the focus to the textbox.
 	void SetFocusToTextBox() { _text->SetFocusFromKbd(); }
 
@@ -62,8 +64,10 @@ private:
 	wxTextCtrl* _text;
 	wxCheckBox* _whole;
 	wxCheckBox* _case;
-	wxString _currWord;
+	wxString _searchTerm;
 	wxHtmlCell *_cell;
+	bool _matchCase;
+	bool _wholeWord;
 
 private:
 	DECLARE_EVENT_TABLE();
