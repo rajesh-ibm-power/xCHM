@@ -94,6 +94,10 @@ wxFSFile* CHMFSHandler::OpenFile(wxFileSystem& fs,
 		if(!right.Left(8).CmpNoCase(wxT("/MS-ITS:")))
 			right = right.AfterLast(wxT(':'));
 
+		wxString tmp = wxString(wxT("file:")) +
+			s->GetCache()->ArchiveName() + 
+			wxT("#xchm:") + right;
+
 		return new wxFSFile(s, 
 				    wxString(wxT("file:")) +
 				    s->GetCache()->ArchiveName() + 

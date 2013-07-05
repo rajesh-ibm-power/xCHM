@@ -50,11 +50,18 @@ CHMFile* CHMInputStream::GetCache()
  * rest of class CHMInputStream implementation
  */
 
+
+#include <iostream>
+
+
 CHMInputStream::CHMInputStream(const wxString& archive, 
 			       const wxString& file)
 	: _currPos(0)
 {
 	wxString filename = file;
+
+	std::cout << "archive: " << archive.mb_str() << ", file: "
+		  << file.mb_str() << std::endl;
 
 	if(!archive.IsEmpty())
 		_path = archive.BeforeLast(wxT('/')) + wxT("/");

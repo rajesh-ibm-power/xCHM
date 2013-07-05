@@ -64,18 +64,19 @@ namespace {
 
 const wxChar *greeting = wxT("<html><head><title>About</title></head>")
         wxT("<body><table border=0><tr><td align=\"left\">")
-        wxT("<img src=\"memory:logo.xpm\"></td><td align=\"left\">")
+        wxT("<img src='memory:logo.xpm'></td><td align=\"left\">")
 	wxT("Hello, and welcome to <B>xCHM</B>, the UNIX CHM viewer.")
 	wxT("<br><br><B>xCHM</B> has been written by Razvan Cojocaru ")
 	wxT("(rzvncj@gmail.com). It is licensed under the <TT>GPL</TT>.<br>")
-	wxT("<B>xCHM</B> is based on Jed Wing's <a href=\"http://www.jedrea.com/")
-	wxT("chmlib/\">CHMLIB</a> and <a href=\"http://www.")
+	wxT("<B>xCHM</B> is based on Jed Wing's <a href=\"http://www.jedrea.")
+	wxT("com/chmlib/\">CHMLIB</a> and <a href=\"http://www.")
 	wxT("wxwidgets.org\">wxWidgets</a>.</td></tr></table>")
 	wxT("<br>If you'd like to know more about CHM, go to")
 	wxT(" <a href=\"http://www.nongnu.org/chmspec/latest/\">Pabs' CHM")
-	wxT(" Specification page</a>.<br>Pabs has contributed time and knowledge")
-	wxT(" to the development of <B>xCHM</B>, and features such as the fast")
-	wxT(" index search would not have been implemented without his help.")
+	wxT(" Specification page</a>.<br>Pabs has contributed time and")
+	wxT(" knowledge to the development of <B>xCHM</B>, and features such")
+	wxT(" as the fast index search would not have been implemented without")
+	wxT(" his help.")
 	wxT(" Portions of the fast index search are modified versions of")
 	wxT(" Pabs' <TT>GPL</TT>d <TT>chmdeco</TT> code.<br><br>If")
 	wxT(" you'd like to use the code in your own stuff please figure")
@@ -106,7 +107,8 @@ const wxChar *error_page =
 const wxChar *about_txt = wxT("xCHM v. ") wxT(VERSION) 
 	wxT("\nby Razvan Cojocaru <rzvncj@gmail.com>\n\n")
 	wxT("With thanks to Pabs (http://bonedaddy.net/pabs3/hhm/).\n")
-	wxT("Based on Jed Wing's CHMLIB (http://66.93.236.84/~jedwin/projects/).\n")
+	wxT("Based on Jed Wing's CHMLIB")
+	wxT(" (http://66.93.236.84/~jedwin/projects/).\n")
 	wxT("XMLRPC code for context sensitive help contributed by\n")
 	wxT("Eamon Millman <millman@pcigeomatics.com>.\n")
 	wxT("<SPAN> tag support and contents tree icons contributed by\n")
@@ -472,13 +474,12 @@ void CHMFrame::OnSelectionChanged(wxTreeEvent& event)
 	if(!data || data->_url.IsEmpty())
 		return;
 
-	/*
-	if(!_nbhtml->GetCurrentPage()->IsCaller()) {
-		_nbhtml->GetCurrentPage()->SetSync(false);
+	/*if(!_nbhtml->GetCurrentPage()->IsCaller()) {
+	  _nbhtml->GetCurrentPage()->SetSync(false); */
 		_nbhtml->LoadPageInCurrentView(wxString(wxT("file:")) + 
 					       chmf->ArchiveName() +
 					       wxT("#xchm:/") + data->_url);
-		_nbhtml->GetCurrentPage()->SetSync(true);
+		/*_nbhtml->GetCurrentPage()->SetSync(true);
 	}
 	*/
 }

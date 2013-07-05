@@ -24,6 +24,7 @@
 
 #include <chmframe.h>
 #include <chmhtmlnotebook.h>
+#include <chmfshandler.h>
 #include <wx/webviewfshandler.h>
 
 
@@ -56,11 +57,18 @@ wxWebView* CHMHtmlNotebook::CreateView()
 	htmlWin->RegisterHandler(wxSharedPtr<wxWebViewHandler>(
 					 new wxWebViewFSHandler("memory")));
 
+	htmlWin->RegisterHandler(wxSharedPtr<wxWebViewHandler>(
+					 new wxWebViewFSHandler("file")));
+	
 	//htmlWin->SetRelatedFrame(_frame, wxT("xCHM v. ") wxT(VERSION));
 	//htmlWin->SetRelatedStatusBar(0);
 
 	Connect(htmlWin->GetId(), wxEVT_WEBVIEW_TITLE_CHANGED,
 		wxWebViewEventHandler(CHMHtmlNotebook::OnTitleChanged),
+		NULL, this);
+
+	Connect(htmlWin->GetId(), wxEVT_WEBVIEW_ERROR,
+		wxWebViewEventHandler(CHMHtmlNotebook::OnLoadError),
 		NULL, this);
 
 	AddPage(htmlWin, _("(Empty page)"));
@@ -69,12 +77,14 @@ wxWebView* CHMHtmlNotebook::CreateView()
 	return htmlWin;
 }
 
+#include <iostream>
+
 
 void CHMHtmlNotebook::AddHtmlView(const wxString& path,
 				  const wxString& link)
 {
 	wxWebView* htmlWin = CreateView();
-	
+
 	if(htmlWin)
 		htmlWin->LoadURL(link);
 }
@@ -82,7 +92,11 @@ void CHMHtmlNotebook::AddHtmlView(const wxString& path,
 
 bool CHMHtmlNotebook::LoadPageInCurrentView(const wxString& location)
 {
-	GetCurrentPage()->LoadURL(location);
+	if (GetCurrentPage()) {
+		std::cout << location.mb_str() << std::endl;
+		GetCurrentPage()->LoadURL(location);
+	}
+
 	return true;
 }
 
@@ -178,6 +192,32 @@ void CHMHtmlNotebook::OnPageChanged(wxAuiNotebookEvent&)
 void CHMHtmlNotebook::OnTitleChanged(wxWebViewEvent& evt)
 {
 	SetPageText(GetSelection(), evt.GetString());	
+}
+
+
+void CHMHtmlNotebook::OnLoadError(wxWebViewEvent& evt)
+{
+#define WX_ERROR_CASE(type)			\
+	case type:				\
+		category = #type;		\
+		break;
+	
+	wxString category;
+	switch (evt.GetInt()) {
+		WX_ERROR_CASE(wxWEBVIEW_NAV_ERR_CONNECTION);
+		WX_ERROR_CASE(wxWEBVIEW_NAV_ERR_CERTIFICATE);
+		WX_ERROR_CASE(wxWEBVIEW_NAV_ERR_AUTH);
+		WX_ERROR_CASE(wxWEBVIEW_NAV_ERR_SECURITY);
+		WX_ERROR_CASE(wxWEBVIEW_NAV_ERR_NOT_FOUND);
+		WX_ERROR_CASE(wxWEBVIEW_NAV_ERR_REQUEST);
+		WX_ERROR_CASE(wxWEBVIEW_NAV_ERR_USER_CANCELLED);
+		WX_ERROR_CASE(wxWEBVIEW_NAV_ERR_OTHER);
+	}
+
+
+	std::cout << "Error; url='" << evt.GetURL().mb_str()
+		  << "', error='" << category.mb_str() << " ("
+		  << evt.GetString().mb_str() << ")'" << std::endl;
 }
 
 

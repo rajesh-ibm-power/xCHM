@@ -66,6 +66,9 @@ public:
 	//! Callback for when a child's title changes
 	void OnTitleChanged(wxWebViewEvent& evt);
 
+	//! Callback for when the web view encounters an error
+	void OnLoadError(wxWebViewEvent& evt);
+
 	//! Close all pages except the first one
 	void CloseAllPagesExceptFirst();
 
