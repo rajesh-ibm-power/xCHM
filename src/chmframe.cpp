@@ -81,12 +81,6 @@ const wxChar *greeting = wxT("<html><head><title>About</title></head>")
 	wxT(" Pabs' <TT>GPL</TT>d <TT>chmdeco</TT> code.<br><br>If")
 	wxT(" you'd like to use the code in your own stuff please figure")
 	wxT(" <TT>GPL</TT> out first.")
-#if !defined(wxUSE_UNICODE) || !wxUSE_UNICODE
-	wxT("<br><br><B>WARNING</B>: your <B>xCHM</B> binary is linked")
-	wxT(" against a non-Unicode version of wxWidgets! While it will")
-	wxT(" work with most CHMs, it might not properly display")
-	wxT(" special character languages.")
-#endif
 	wxT("<br><br>Tips:<br><ul><li>")
 	wxT("The global search is an \'AND\' search, i.e. searching for")
 	wxT(" \'word1 word2\' (quotes not included) will find all the pages")
@@ -129,8 +123,8 @@ CHMFrame::CHMFrame(const wxString& title, const wxString& booksDir,
 		   const int sashPosition, const wxString& fullAppPath,
 		   bool loadTopics, bool loadIndex)
 	: wxFrame(NULL, -1, title, pos, size),
-	  _tcl(NULL), _sw(NULL), _menuFile(NULL), _tb(NULL), _ep(NULL),
-	  _nb(NULL), _cb(NULL), _csp(NULL), _cip(NULL), _openPath(booksDir), 
+	  _tcl(NULL), _sw(NULL), _menuFile(NULL), _tb(NULL), _nb(NULL),
+	  _cb(NULL), _csp(NULL), _cip(NULL), _openPath(booksDir),
 	  _bookmarkSel(true), _bookmarksDeleted(false), _sashPos(sashPosition),
 	  _fullAppPath(fullAppPath), _loadTopics(loadTopics),
 	  _loadIndex(loadIndex), _fullScreen(false)
@@ -175,8 +169,6 @@ CHMFrame::CHMFrame(const wxString& title, const wxString& booksDir,
 	wxMemoryFSHandler::AddFile(wxT("about.html"), greeting);
 	wxMemoryFSHandler::AddFile(wxT("error.html"), error_page);
 
-	_ep = new wxHtmlEasyPrinting(wxT("Printing"), this);
-
 	_sw = new wxSplitterWindow(this);
 	_sw->SetMinimumPaneSize(CONTENTS_MARGIN);
 
@@ -184,11 +176,9 @@ CHMFrame::CHMFrame(const wxString& title, const wxString& booksDir,
 	_nb->Show(FALSE);
 
 	wxPanel* temp = CreateContentsPanel();
+
 	_nbhtml = new CHMHtmlNotebook(_sw, _tcl, this);
-
 	_csp = new CHMSearchPanel(_nb, _tcl, _nbhtml);
-	_font = _tcl->GetFont();
-
 	_cip = new CHMIndexPanel(_nb, _nbhtml);
 
 	_nb->AddPage(temp, _("Contents"));
@@ -204,8 +194,6 @@ CHMFrame::~CHMFrame()
 {
 	if(_tcl) // Supposedly, workaround for wxWin
 		_tcl->Unselect();
-
-	delete _ep;
 }
 
 
@@ -332,7 +320,8 @@ void CHMFrame::OnPrint(wxCommandEvent& WXUNUSED(event))
 {
 	wxLogNull wln;
 
-	_ep->PrintFile(_nbhtml->GetCurrentPage()->GetCurrentURL());
+	if(_nbhtml->GetCurrentPage())
+		_nbhtml->GetCurrentPage()->Print();
 }
 
 
@@ -587,10 +576,6 @@ bool CHMFrame::LoadContextID( const int contextID )
 
 void CHMFrame::UpdateCHMInfo()
 {
-#if !wxUSE_UNICODE
-	static bool noSpecialFont = true;
-	static wxFontEncoding enc = wxFont::GetDefaultEncoding();
-#endif
 	CHMFile *chmf = CHMInputStream::GetCache();
 
 	if(!chmf)
@@ -618,61 +603,6 @@ void CHMFrame::UpdateCHMInfo()
 		_tcl->DeleteChildren(_tcl->GetRootItem());
 	}
 
-#if !wxUSE_UNICODE
-	wxString fontFace = chmf->DefaultFont();
-
-	if(!fontFace.IsEmpty()) {
-
-		long fs = -1;		
-		fontFace.BeforeLast(wxT(',')).AfterLast(wxT(',')).ToLong(&fs);
-
-		if(fs < 10)
-			fs = 10;
-
-		wxFont font((int)fs, wxDEFAULT, wxNORMAL, wxNORMAL, 
-			    FALSE, fontFace.BeforeFirst(wxT(',')), 
-			    chmf->DesiredEncoding());
-
-		if(font.Ok()) {
-
-			int sizes[7];
-			for(int i = -3; i <= 3; ++i)
-				sizes[i+3] = _fontSize + i * 2;
-
-			_tcl->SetFont(font);
-			_csp->SetNewFont(font);
-			_cip->SetNewFont(font);
-			_cb->SetFont(font);
-			_nbhtml->SetChildrenFonts(font.GetFaceName(),
-						  font.GetFaceName(),
-						  sizes);
-			noSpecialFont = false;
-		}
-
-	} else if(noSpecialFont == false) {
-
-		int sizes[7];
-		for(int i = -3; i <= 3; ++i)
-			sizes[i+3] = _fontSize + i * 2;
-
-		_tcl->SetFont(_font);
-
-		wxFont tmp(_font.GetPointSize(), 
-			   _font.GetFamily(),
-			   _font.GetStyle(), _font.GetWeight(), 
-			   _font.GetUnderlined(), _font.GetFaceName(),
-			   enc);
-
-		if(tmp.Ok()) {
-			_cb->SetFont(tmp);
-			_csp->SetNewFont(tmp);
-			_cip->SetNewFont(tmp);
-		}
-
-		_nbhtml->SetChildrenFonts(_normalFont, _fixedFont, sizes);
-		noSpecialFont = true;
-	}
-#endif
 	if(_loadTopics)
 		chmf->GetTopicsTree(_tcl);
 	

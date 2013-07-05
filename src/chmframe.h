@@ -24,7 +24,6 @@
 #define __CHMFRAME_H_
 
 #include <wx/wx.h>
-#include <wx/html/htmprint.h>
 #include <wx/webview.h>
 #include <wx/splitter.h>
 #include <wx/notebook.h>
@@ -236,7 +235,6 @@ private:
 	wxSplitterWindow* _sw;
 	wxMenu* _menuFile;
 	wxToolBar* _tb;
-	wxHtmlEasyPrinting* _ep;
 	wxNotebook* _nb;
 	wxComboBox* _cb;
 	CHMSearchPanel* _csp;
@@ -245,8 +243,7 @@ private:
 	wxString _openPath;
 	bool _bookmarkSel;
 	bool _bookmarksDeleted;
-	int _sashPos;	
-	wxFont _font;
+	int _sashPos;
 	wxFileHistory _fh;
 	wxString _fullAppPath;
 	bool _loadTopics;

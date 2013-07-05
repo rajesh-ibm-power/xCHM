@@ -200,9 +200,8 @@ bool CHMFile::LoadCHM(const wxString&  archiveName)
 	GetArchiveInfo();
 	LoadContextIDs();
 
-#if wxUSE_UNICODE
 	_title = translateEncoding(_title, _enc);
-#endif
+
 	return true;
 }
 
@@ -1053,17 +1052,13 @@ bool CHMFile::ProcessWLC(uint64_t wlc_count, uint64_t wlc_size,
 		} else {
 			combuf[COMMON_BUF_LEN - 1] = 0;
 
-#if wxUSE_UNICODE
 			if(_enc == wxFONTENCODING_SYSTEM)
-#endif
 				topic = CURRENT_CHAR_STRING(combuf);
-#if wxUSE_UNICODE
 			else {
 				std::auto_ptr<wxCSConv> cvPtr;
 				createCSConvPtr(cvPtr, _enc);
 				topic = wxString((const char *)combuf, *cvPtr);
 			}
-#endif
 		}
 	      
 		cursor32 = entry + 8;
