@@ -87,6 +87,11 @@ wxWebView* CHMHtmlNotebook::CreateView()
 		wxIdleEventHandler(CHMHtmlNotebook::OnIdle),
 		NULL, this);
 
+	// It would have been better to give the URL directly to
+	// wxWebView::New(), but file: and memory: handlers need to be
+	// registered before anything useful is loaded. So, remove the
+	// about:blank page.
+	htmlWin->ClearHistory();
 
 	AddPage(htmlWin, _("(Empty page)"));
 	SetSelection(GetPageCount() - 1);	
@@ -94,14 +99,12 @@ wxWebView* CHMHtmlNotebook::CreateView()
 	return htmlWin;
 }
 
-#include <iostream>
-
 
 void CHMHtmlNotebook::AddHtmlView(const wxString& path,
 				  const wxString& link)
 {
-	wxWebView* htmlWin = CreateView();
-
+	wxWebView *htmlWin = CreateView();
+	
 	if(htmlWin)
 		htmlWin->LoadURL(link);
 }

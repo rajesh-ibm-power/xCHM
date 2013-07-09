@@ -52,7 +52,7 @@ class CHMHtmlNotebook : public wxAuiNotebook {
 public:
 	//! Constructor
 	CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc, CHMFrame* frame);
-	
+
 	//! Add a notebook tab and display the specified URL
 	void AddHtmlView(const wxString& path,
 			 const wxString& link);
@@ -62,18 +62,6 @@ public:
 
 	//! Returns the current page as a CHMHtmlWindow
 	wxWebView* GetCurrentPage();
-
-	//! Callback for when a child's title changes
-	void OnTitleChanged(wxWebViewEvent& evt);
-
-	//! Callback for when the web view encounters an error
-	void OnLoadError(wxWebViewEvent& evt);
-
-	void OnNavigating(wxWebViewEvent& evt);
-	void OnNavigated(wxWebViewEvent& evt);
-	void OnLoaded(wxWebViewEvent& evt);
-
-	void OnIdle(wxIdleEvent& evt);
 
 	//! Close all pages except the first one
 	void CloseAllPagesExceptFirst();
@@ -102,6 +90,20 @@ protected:
 
 	//! Callback for the page changed wxWidgets event
 	void OnPageChanged(wxAuiNotebookEvent&);
+
+	//! Callback for when a child's title changes
+	void OnTitleChanged(wxWebViewEvent& evt);
+
+	//! Callback for when the web view encounters an error
+	void OnLoadError(wxWebViewEvent& evt);
+
+	void OnNavigating(wxWebViewEvent& evt);
+
+	void OnNavigated(wxWebViewEvent& evt);
+
+	void OnLoaded(wxWebViewEvent& evt);
+
+	void OnIdle(wxIdleEvent& evt);
 
 private:
 	wxTreeCtrl* _tcl;

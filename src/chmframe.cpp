@@ -247,20 +247,25 @@ void CHMFrame::OnHome(wxCommandEvent& WXUNUSED(event))
 
 void CHMFrame::OnHistoryForward(wxCommandEvent& WXUNUSED(event))
 {
-	if(!_nbhtml->GetCurrentPage())
+	wxWebView *htmlWin = _nbhtml->GetCurrentPage();
+
+	if(!htmlWin)
 		return;
 
-	_nbhtml->GetCurrentPage()->GoForward();
+	if(htmlWin->CanGoForward())
+		htmlWin->GoForward();
 }
 
 
 void CHMFrame::OnHistoryBack(wxCommandEvent& WXUNUSED(event))
 {
-	if(!_nbhtml->GetCurrentPage())
+	wxWebView *htmlWin = _nbhtml->GetCurrentPage();
+
+	if(!htmlWin)
 		return;
 
-	if(_nbhtml->GetCurrentPage()->CanGoBack())
-		_nbhtml->GetCurrentPage()->GoBack();
+	if(htmlWin->CanGoBack())
+		htmlWin->GoBack();
 	else {
 		if(CHMInputStream::GetCache())
 			return;
@@ -320,8 +325,13 @@ void CHMFrame::OnPrint(wxCommandEvent& WXUNUSED(event))
 {
 	wxLogNull wln;
 
-	if(_nbhtml->GetCurrentPage())
-		_nbhtml->GetCurrentPage()->Print();
+	wxWebView *htmlWin = _nbhtml->GetCurrentPage();
+
+	if(!htmlWin)
+		return;
+
+	if(htmlWin)
+		htmlWin->Print();
 }
 
 
@@ -335,10 +345,12 @@ void CHMFrame::OnHistFile(wxCommandEvent& event)
 
 void CHMFrame::OnFind(wxCommandEvent& WXUNUSED(event))
 {
-	if(!_nbhtml->GetCurrentPage())
+	wxWebView *htmlWin = _nbhtml->GetCurrentPage();
+
+	if(!htmlWin)
 		return;
 
-	CHMFindDialog cfd(this, _nbhtml->GetCurrentPage());
+	CHMFindDialog cfd(this, htmlWin);
 
 	cfd.CentreOnParent();
 	cfd.ShowModal();
@@ -587,7 +599,7 @@ void CHMFrame::UpdateCHMInfo()
 		return;
 
 	wxWindowDisabler wwd;
-	wxBusyInfo wait(_("Loading, please wait.."));
+	wxBusyInfo wait(_("Loading, please wait.."), this);
 
 	wxString filename = chmf->ArchiveName();
 	if(!filename.IsEmpty()) {		
