@@ -165,7 +165,8 @@ CHMFrame::CHMFrame(const wxString& title, const wxString& booksDir,
 	wxFileSystem::AddHandler(new wxMemoryFSHandler);
 	wxBitmap bitmap(logo_xpm);
 	wxMemoryFSHandler::AddFile(wxT("logo.xpm"), bitmap, //wxBITMAP(logo), 
-				   wxBITMAP_TYPE_XPM);
+				   //wxBITMAP_TYPE_XPM);
+				   wxBITMAP_TYPE_PNG);
 	wxMemoryFSHandler::AddFile(wxT("about.html"), greeting);
 	wxMemoryFSHandler::AddFile(wxT("error.html"), error_page);
 

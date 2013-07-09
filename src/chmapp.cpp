@@ -112,11 +112,13 @@ bool CHMApp::OnInit()
 			 wxCMD_LINE_PARAM_OPTIONAL );
 	
 	_cmdLP.AddOption( wxT("c"), wxT("contextid"), 
-			  wxT("context-Id to open in file, requires that a file be specified"), 
+			  wxT("context-Id to open in file, requires that "
+			      "a file be specified"), 
 			  wxCMD_LINE_VAL_NUMBER );
 #ifdef WITH_LIBXMLRPC
 	_cmdLP.AddOption( wxT("x"), wxT("xmlrpc"), 
-			  wxT("starts xCHM in XML-RPC server mode listening on port <num>"), 
+			  wxT("starts xCHM in XML-RPC server mode listening "
+			      "on port <num>"), 
 			  wxCMD_LINE_VAL_NUMBER );
 #endif
 
