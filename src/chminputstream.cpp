@@ -63,9 +63,6 @@ CHMInputStream::CHMInputStream(const wxString& archive,
 
 	wxString filename = file;
 
-	std::cout << "archive: " << archive.mb_str() << ", file: "
-		  << file.mb_str() << std::endl;
-
 	if(!archive.IsEmpty())
 		_path = archive.BeforeLast(wxT('/')) + wxT("/");
 
@@ -112,20 +109,10 @@ CHMInputStream::CHMInputStream(const wxString& archive,
 }
 
 
-size_t CHMInputStream::GetSize() const
-{
-	return _ui.length;
-}
-
-
-bool CHMInputStream::Eof() const
-{
-	return (uint64_t)_currPos >= _ui.length;
-}
-
-
 size_t CHMInputStream::OnSysRead(void *buffer, size_t bufsize)
-{	
+{
+	std::cout << "Boo!" << std::endl;
+
 	if((uint64_t)_currPos >= _ui.length) {
 		m_lasterror = wxSTREAM_EOF;
 		return 0;
@@ -141,6 +128,9 @@ size_t CHMInputStream::OnSysRead(void *buffer, size_t bufsize)
 		_archiveCache->RetrieveObject(&_ui,
 					      (unsigned char *)buffer, 
 					      _currPos, bufsize);
+	
+	std::cout << "_currPos: " << _currPos << ", read: " << bufsize
+		<< std::endl;
      
 	_currPos += bufsize;
     

@@ -44,12 +44,15 @@ public:
 
 	wxFSFile* GetFile(const wxString& uri)
 	{
-		size_t pos = uri.find("//");
+		size_t pos = uri.find(wxT("//"));
 
 		if(pos == wxString::npos)
 			return NULL;
 
 		wxString file = uri.substr(pos + 2);
+
+		if(!file.Contains(wxT("xchm")))
+			file += wxT("#xchm:");
 
 		return _fileSystem->OpenFile(file);
 	}
@@ -147,7 +150,7 @@ bool CHMHtmlNotebook::LoadPageInCurrentView(const wxString& location)
 	wxWebView* htmlWin = GetCurrentPage();
 
 	if(htmlWin) {
-		htmlWin->Stop();
+		// htmlWin->Stop();
 		htmlWin->LoadURL(location);
 	}
 

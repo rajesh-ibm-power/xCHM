@@ -22,6 +22,7 @@
 
 #include <chmfshandler.h>
 #include <chminputstream.h>
+#include <iostream>
 
 
 // only needs to be here because I killed the constructors
@@ -39,10 +40,15 @@ CHMFSHandler::~CHMFSHandler()
 
 bool CHMFSHandler::CanOpen(const wxString& location)
 {
-	wxString p = GetProtocol(location);
-	return (p == "xchm" 
-		&& GetProtocol(GetLeftLocation(location)) == "file")
+	/*
+	return GetProtocol(GetLeftLocation(location)) == "file"
 		|| !location.Left(6).CmpNoCase("MS-ITS");
+	*/
+
+	wxString p = GetProtocol(location);
+	return (p == wxT("xchm")
+		&& GetProtocol(GetLeftLocation(location)) == wxT("file"))
+		|| !location.Left(6).CmpNoCase(wxT("MS-ITS"));
 }
 
 
@@ -52,19 +58,19 @@ wxFSFile* CHMFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs),
 	wxString chmFile = GetRightLocation(location);
 	wxString urlFile = GetLeftLocation(location);
 
-	if(!location.Left(6).CmpNoCase("MS-ITS")) {
-		urlFile = wxString("/") + location;
+	if(!location.Left(6).CmpNoCase(wxT("MS-ITS"))) {
+		urlFile = wxString(wxT("/")) + location;
 		chmFile = wxEmptyString;
 
-	} else if (GetProtocol(chmFile) != "file")
+	} else if (GetProtocol(urlFile) != wxT("file"))
 		return NULL;
 
 	// HTML code for space is %20
-	urlFile.Replace("%20", " ", TRUE);
-	urlFile.Replace("%5F", "_", TRUE);
-	urlFile.Replace("%2E", ".", TRUE);
-	urlFile.Replace("%2D", "-", TRUE);
-	urlFile.Replace("%26", "&", TRUE);
+	urlFile.Replace(wxT("%20"), wxT(" "), TRUE);
+	urlFile.Replace(wxT("%5F"), wxT("_"), TRUE);
+	urlFile.Replace(wxT("%2E"), wxT("."), TRUE);
+	urlFile.Replace(wxT("%2D"), wxT("-"), TRUE);
+	urlFile.Replace(wxT("%26"), wxT("&"), TRUE);
             
 	wxFileName filename = wxFileSystem::URLToFileName(chmFile);
 	filename.Normalize();
@@ -74,22 +80,29 @@ wxFSFile* CHMFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs),
 
 	if (s && s->IsOk()) {
 
-		if(urlFile.IsSameAs("/"))
+		std::cout << "here1" << std::endl;
+
+		if(urlFile.IsSameAs(wxT("/")))
 			urlFile = s->GetCache()->HomePage();
 
 		// The dreaded links to files in other archives.
 		// Talk about too much enthusiasm.
-		if(!urlFile.Left(8).CmpNoCase("/MS-ITS:"))
-			urlFile = urlFile.AfterLast(':');
+		if(!urlFile.Left(8).CmpNoCase(wxT("/MS-ITS:")))
+			urlFile = urlFile.AfterLast(wxT(':'));
 
-		wxString tmp = wxString("file:") + urlFile +
-			"#xchm:" + s->GetCache()->ArchiveName();
+		wxString tmp = wxString(wxT("file:")) + urlFile +
+			wxT("#xchm:") + s->GetCache()->ArchiveName();
+
+		std::cout << "mime type: " <<
+		GetMimeTypeFromExt(urlFile.Lower()) << std::endl;
 
 		return new wxFSFile(s, tmp,
 				    GetMimeTypeFromExt(urlFile.Lower()),
 				    GetAnchor(location),
 				    wxDateTime((time_t)-1));
 	}
+
+	std::cout << "exit here" << std::endl;
     
 	delete s;
 	return NULL;

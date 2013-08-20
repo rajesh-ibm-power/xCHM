@@ -46,11 +46,7 @@ public:
 	 */
 	CHMInputStream(const wxString& archive, const wxString& file);
 
-	//! Returns the size of the file.
-	virtual size_t GetSize() const;
-
-	//! True if EOF has been found.
-	virtual bool Eof() const;
+	virtual wxFileOffset GetLength() const { return _ui.length; }
 
 	/*!
 	  \brief Returns the static CHMFile pointer associated with
