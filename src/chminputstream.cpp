@@ -58,6 +58,9 @@ CHMInputStream::CHMInputStream(const wxString& archive,
 			       const wxString& file)
 	: _currPos(0)
 {
+	std::cout << "archive: " << archive.mb_str()
+		<< ", file: " << file.mb_str() << std::endl;
+
 	wxString filename = file;
 
 	std::cout << "archive: " << archive.mb_str() << ", file: "

@@ -98,7 +98,7 @@ const wxChar *error_page =
 	wxT("<html><body>Error loading CHM file!</body></html>");
 
 
-const wxChar *about_txt = wxT("xCHM v. ") wxT(VERSION) 
+const wxChar *about_txt = wxT("xCHM v. ") wxT(VERSION)
 	wxT("\nby Razvan Cojocaru <rzvncj@gmail.com>\n\n")
 	wxT("With thanks to Pabs (http://bonedaddy.net/pabs3/hhm/).\n")
 	wxT("Based on Jed Wing's CHMLIB")
@@ -240,9 +240,9 @@ void CHMFrame::OnHome(wxCommandEvent& WXUNUSED(event))
 	if(!chmf)
 		return;
 
-	_nbhtml->LoadPageInCurrentView(wxString(wxT("file:")) +
-				       chmf->ArchiveName()
-				       + wxT("#xchm:") + chmf->HomePage());
+	_nbhtml->LoadPageInCurrentView(wxString(wxT("chmfs://")) +
+				       chmf->HomePage() + "#xchm" +
+				       chmf->ArchiveName());
 }
 
 
@@ -453,9 +453,8 @@ void CHMFrame::OnBookmarkSel(wxCommandEvent& event)
 	if(!chmf)
 		return;
 
-	_nbhtml->LoadPageInCurrentView(wxString(wxT("file:")) + 
-				       chmf->ArchiveName() +
-				       wxT("#xchm:/") + *url);
+	_nbhtml->LoadPageInCurrentView(wxString("chmfs://") + *url +
+				       "#xchm:" + chmf->ArchiveName());
 }
 
 
@@ -476,9 +475,9 @@ void CHMFrame::OnSelectionChanged(wxTreeEvent& event)
 	if(!data || data->_url.IsEmpty())
 		return;
 
-	_nbhtml->LoadPageInCurrentView(wxString(wxT("file:")) + 
-				       chmf->ArchiveName() +
-				       wxT("#xchm:/") + data->_url);
+	_nbhtml->LoadPageInCurrentView(wxString(wxT("chmfs://")) + 
+				       data->_url + "#xchm:" +
+				       chmf->ArchiveName());
 
 	/*
 	if(!_nbhtml->GetCurrentPage()->IsCaller()) {
@@ -533,19 +532,18 @@ bool CHMFrame::LoadCHM(const wxString& archive)
 	   !archive.Contains(wxT("#xchm:"))) {
 
 		wxFileSystem wfs;
-		std::auto_ptr<wxFSFile> p(wfs.OpenFile(wxString(wxT("file:")) 
-						       + archive
-						       + wxT("#xchm:/")));
+		std::auto_ptr<wxFSFile> p(wfs.OpenFile(wxString("file:/") 
+						       + "#xchm:/" + archive));
 	
 	        CHMFile *chmf = CHMInputStream::GetCache();
 
 		if(!chmf)
 			return false;
 	
-		rtn = _nbhtml->LoadPageInCurrentView(wxString(wxT("file:"))
-						+ chmf->ArchiveName()
-				                + wxT("#xchm:") 
-						+ chmf->HomePage());
+		rtn = _nbhtml->LoadPageInCurrentView(wxString("chmfs://")
+						+ chmf->HomePage()
+				                + "#xchm:" 
+						+ chmf->ArchiveName());
 	} else {
 		rtn = _nbhtml->LoadPageInCurrentView(archive);
 	}
@@ -573,7 +571,7 @@ bool CHMFrame::LoadCHM(const wxString& archive)
 }
 
 
-bool CHMFrame::LoadContextID( const int contextID )
+bool CHMFrame::LoadContextID(const int contextID)
 {
 	wxBusyCursor bc;
 
@@ -585,10 +583,9 @@ bool CHMFrame::LoadContextID( const int contextID )
 	if( !chmf->IsValidCID( contextID ) )
 		return FALSE;
 
-	return _nbhtml->LoadPageInCurrentView(wxString(wxT("file:")) + 
-					      chmf->ArchiveName()
-					      + wxT("#xchm:") + 
-					      chmf->GetPageByCID(contextID));
+	return _nbhtml->LoadPageInCurrentView(wxString("chmfs://") + 
+					      chmf->GetPageByCID(contextID) +
+					      "#xchm:" + chmf->ArchiveName());
 }
 
 

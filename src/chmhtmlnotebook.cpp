@@ -26,6 +26,38 @@
 #include <chmhtmlnotebook.h>
 #include <chmfshandler.h>
 #include <wx/webviewfshandler.h>
+#include <wx/webview.h>
+
+
+
+class MyHandler : public wxWebViewHandler {
+
+
+public:
+	MyHandler(const wxString& scheme)
+	: wxWebViewHandler(scheme)
+	{
+		_fileSystem = new wxFileSystem;
+	}
+
+	~MyHandler() { delete _fileSystem; }
+
+	wxFSFile* GetFile(const wxString& uri)
+	{
+		size_t pos = uri.find("//");
+
+		if(pos == wxString::npos)
+			return NULL;
+
+		wxString file = uri.substr(pos + 2);
+
+		return _fileSystem->OpenFile(file);
+	}
+
+private:
+	wxFileSystem* _fileSystem;
+};
+
 
 
 CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
@@ -58,7 +90,7 @@ wxWebView* CHMHtmlNotebook::CreateView()
 					 new wxWebViewFSHandler("memory")));
 
 	htmlWin->RegisterHandler(wxSharedPtr<wxWebViewHandler>(
-					 new wxWebViewFSHandler("file")));
+					 new MyHandler("chmfs")));
 	
 	//htmlWin->SetRelatedFrame(_frame, wxT("xCHM v. ") wxT(VERSION));
 	//htmlWin->SetRelatedStatusBar(0);
