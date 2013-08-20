@@ -848,7 +848,7 @@ void CHMFrame::SaveBookmarks()
 	const wxChar* format1 = wxT("bookmark_%ld_title");
 	const wxChar* format2 = wxT("bookmark_%ld_url");
 
-	for(int i = 0; i < noEntries; ++i) {
+	for(long i = 0; i < noEntries; ++i) {
 		wxString *url = reinterpret_cast<wxString *>(
 #ifdef __WXGTK__
 			_cb->GetClientData(i));
