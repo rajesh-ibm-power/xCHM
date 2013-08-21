@@ -50,14 +50,14 @@ bool CHMFSHandler::CanOpen(const wxString& location)
 wxFSFile* CHMFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), 
 				 const wxString& location)
 {
-	wxString chmFile = GetRightLocation(location);
-	wxString urlFile = GetLeftLocation(location);
+	wxString chmFile = GetLeftLocation(location);
+	wxString urlFile = GetRightLocation(location);
 
 	if(!location.Left(6).CmpNoCase(wxT("MS-ITS"))) {
 		urlFile = wxString(wxT("/")) + location;
 		chmFile = wxEmptyString;
 
-	} else if (GetProtocol(urlFile) != wxT("file"))
+	} else if (GetProtocol(chmFile) != wxT("file"))
 		return NULL;
 
 	// HTML code for space is %20

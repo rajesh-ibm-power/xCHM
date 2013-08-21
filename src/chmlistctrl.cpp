@@ -96,9 +96,11 @@ void CHMListCtrl::LoadSelected()
 	if(chmf) {
 		wxString fname = _items[item]->_url;
 
-		if(!fname.StartsWith("chmfs://"))
-			fname = wxString("chmfs://") + _items[item]->_url +
-			"#xchm:" + chmf->ArchiveName();
+		if(!fname.StartsWith(wxT("chmfs://")))
+			fname = wxString(wxT("chmfs://")) +
+				chmf->ArchiveName() +
+				wxT(";protocol=xchm") +
+				_items[item]->_url;
 
 		_nbhtml->LoadPageInCurrentView(fname);
 	}

@@ -241,8 +241,9 @@ void CHMFrame::OnHome(wxCommandEvent& WXUNUSED(event))
 		return;
 
 	_nbhtml->LoadPageInCurrentView(wxString(wxT("chmfs://")) +
-				       chmf->HomePage() + "#xchm" +
-				       chmf->ArchiveName());
+				       chmf->ArchiveName() +
+				       wxT(";protocol=xchm") +
+				       chmf->HomePage()); 
 }
 
 
@@ -267,10 +268,6 @@ void CHMFrame::OnHistoryBack(wxCommandEvent& WXUNUSED(event))
 
 	if(htmlWin->CanGoBack())
 		htmlWin->GoBack();
-	else {
-		if(CHMInputStream::GetCache())
-			return;
-	}
 }
 
 
@@ -453,8 +450,10 @@ void CHMFrame::OnBookmarkSel(wxCommandEvent& event)
 	if(!chmf)
 		return;
 
-	_nbhtml->LoadPageInCurrentView(wxString("chmfs://") + *url +
-				       "#xchm:" + chmf->ArchiveName());
+	_nbhtml->LoadPageInCurrentView(wxString(wxT("chmfs://")) +
+						chmf->ArchiveName() +
+						wxT(";protocol=xchm") +
+						*url);
 }
 
 
@@ -476,8 +475,9 @@ void CHMFrame::OnSelectionChanged(wxTreeEvent& event)
 		return;
 
 	_nbhtml->LoadPageInCurrentView(wxString(wxT("chmfs://")) + 
-				       data->_url + "#xchm:" +
-				       chmf->ArchiveName());
+				       chmf->ArchiveName() +
+				       wxT(";protocol=xchm") + data->_url);
+
 
 	/*
 	if(!_nbhtml->GetCurrentPage()->IsCaller()) {
@@ -525,25 +525,29 @@ bool CHMFrame::LoadCHM(const wxString& archive)
 	wxLogNull wln;
 	
 	bool rtn = false;
+
 	SaveBookmarks();
 	_nb->SetSelection(0);
 	_nbhtml->CloseAllPagesExceptFirst();
-	if(!archive.StartsWith(wxT("file:")) || 
-	   !archive.Contains(wxT("#xchm:"))) {
+
+	if(!archive.StartsWith(wxT("chmfs:")) || 
+	   !archive.Contains(wxT("=xchm"))) {
 
 		wxFileSystem wfs;
-		std::auto_ptr<wxFSFile> p(wfs.OpenFile(wxString("file:/") 
-						       + "#xchm:/" + archive));
+		std::auto_ptr<wxFSFile> p(wfs.OpenFile(wxString(wxT("file:")) +
+						       archive +
+						       wxT("#xchm:/")));
 	
 	        CHMFile *chmf = CHMInputStream::GetCache();
 
 		if(!chmf)
 			return false;
 	
-		rtn = _nbhtml->LoadPageInCurrentView(wxString("chmfs://")
-						+ chmf->HomePage()
-				                + "#xchm:" 
-						+ chmf->ArchiveName());
+		rtn = _nbhtml->LoadPageInCurrentView(wxString(wxT("chmfs://"))
+						+ chmf->ArchiveName()
+						+ wxT(";protocol=xchm")
+						+ chmf->HomePage());
+
 	} else {
 		rtn = _nbhtml->LoadPageInCurrentView(archive);
 	}
@@ -583,9 +587,10 @@ bool CHMFrame::LoadContextID(const int contextID)
 	if( !chmf->IsValidCID( contextID ) )
 		return FALSE;
 
-	return _nbhtml->LoadPageInCurrentView(wxString("chmfs://") + 
-					      chmf->GetPageByCID(contextID) +
-					      "#xchm:" + chmf->ArchiveName());
+	return _nbhtml->LoadPageInCurrentView(wxString(wxT("chmfs://")) + 
+					      chmf->ArchiveName() +
+					      wxT(";protocol=xchm") +
+					      chmf->GetPageByCID(contextID));
 }
 
 

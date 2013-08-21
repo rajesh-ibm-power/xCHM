@@ -26,40 +26,8 @@
 #include <chmhtmlnotebook.h>
 #include <chmfshandler.h>
 #include <wx/webviewfshandler.h>
+#include <wx/webviewarchivehandler.h>
 #include <wx/webview.h>
-
-
-
-class MyHandler : public wxWebViewHandler {
-
-
-public:
-	MyHandler(const wxString& scheme)
-	: wxWebViewHandler(scheme)
-	{
-		_fileSystem = new wxFileSystem;
-	}
-
-	~MyHandler() { delete _fileSystem; }
-
-	wxFSFile* GetFile(const wxString& uri)
-	{
-		size_t pos = uri.find(wxT("//"));
-
-		if(pos == wxString::npos)
-			return NULL;
-
-		wxString file = uri.substr(pos + 2);
-
-		if(!file.Contains(wxT("xchm")))
-			file += wxT("#xchm:");
-
-		return _fileSystem->OpenFile(file);
-	}
-
-private:
-	wxFileSystem* _fileSystem;
-};
 
 
 
@@ -93,7 +61,7 @@ wxWebView* CHMHtmlNotebook::CreateView()
 					 new wxWebViewFSHandler("memory")));
 
 	htmlWin->RegisterHandler(wxSharedPtr<wxWebViewHandler>(
-					 new MyHandler("chmfs")));
+					 new wxWebViewArchiveHandler("chmfs")));
 	
 	//htmlWin->SetRelatedFrame(_frame, wxT("xCHM v. ") wxT(VERSION));
 	//htmlWin->SetRelatedStatusBar(0);
@@ -127,6 +95,7 @@ wxWebView* CHMHtmlNotebook::CreateView()
 	// registered before anything useful is loaded. So, remove the
 	// about:blank page.
 	htmlWin->ClearHistory();
+	htmlWin->EnableHistory(true);
 
 	AddPage(htmlWin, _("(Empty page)"));
 	SetSelection(GetPageCount() - 1);	
@@ -150,7 +119,7 @@ bool CHMHtmlNotebook::LoadPageInCurrentView(const wxString& location)
 	wxWebView* htmlWin = GetCurrentPage();
 
 	if(htmlWin) {
-		// htmlWin->Stop();
+		htmlWin->Stop();
 		htmlWin->LoadURL(location);
 	}
 
