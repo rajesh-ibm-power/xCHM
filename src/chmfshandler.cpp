@@ -40,11 +40,6 @@ CHMFSHandler::~CHMFSHandler()
 
 bool CHMFSHandler::CanOpen(const wxString& location)
 {
-	/*
-	return GetProtocol(GetLeftLocation(location)) == "file"
-		|| !location.Left(6).CmpNoCase("MS-ITS");
-	*/
-
 	wxString p = GetProtocol(location);
 	return (p == wxT("xchm")
 		&& GetProtocol(GetLeftLocation(location)) == wxT("file"))
@@ -80,8 +75,6 @@ wxFSFile* CHMFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs),
 
 	if (s && s->IsOk()) {
 
-		std::cout << "here1" << std::endl;
-
 		if(urlFile.IsSameAs(wxT("/")))
 			urlFile = s->GetCache()->HomePage();
 
@@ -90,19 +83,14 @@ wxFSFile* CHMFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs),
 		if(!urlFile.Left(8).CmpNoCase(wxT("/MS-ITS:")))
 			urlFile = urlFile.AfterLast(wxT(':'));
 
-		wxString tmp = wxString(wxT("file:")) + urlFile +
+		wxString name = wxString(wxT("file:")) + urlFile +
 			wxT("#xchm:") + s->GetCache()->ArchiveName();
 
-		std::cout << "mime type: " <<
-		GetMimeTypeFromExt(urlFile.Lower()) << std::endl;
-
-		return new wxFSFile(s, tmp,
+		return new wxFSFile(s, name,
 				    GetMimeTypeFromExt(urlFile.Lower()),
 				    GetAnchor(location),
 				    wxDateTime((time_t)-1));
 	}
-
-	std::cout << "exit here" << std::endl;
     
 	delete s;
 	return NULL;
