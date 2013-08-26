@@ -49,7 +49,6 @@ CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
 	SetTabCtrlHeight(0);
 
 	AddHtmlView(wxEmptyString, wxT("memory:about.html"));
-	//AddHtmlView(wxEmptyString, wxT("http://www.google.com"));
 }
 
 
@@ -63,9 +62,6 @@ wxWebView* CHMHtmlNotebook::CreateView()
 	htmlWin->RegisterHandler(wxSharedPtr<wxWebViewHandler>(
 					 new wxWebViewArchiveHandler("chmfs")));
 	
-	//htmlWin->SetRelatedFrame(_frame, wxT("xCHM v. ") wxT(VERSION));
-	//htmlWin->SetRelatedStatusBar(0);
-
 	Connect(htmlWin->GetId(), wxEVT_WEBVIEW_TITLE_CHANGED,
 		wxWebViewEventHandler(CHMHtmlNotebook::OnTitleChanged),
 		NULL, this);
@@ -90,14 +86,15 @@ wxWebView* CHMHtmlNotebook::CreateView()
 		wxIdleEventHandler(CHMHtmlNotebook::OnIdle),
 		NULL, this);
 
+	AddPage(htmlWin, _("(Empty page)"));
+
 	// It would have been better to give the URL directly to
 	// wxWebView::New(), but file: and memory: handlers need to be
 	// registered before anything useful is loaded. So, remove the
 	// about:blank page.
-	htmlWin->ClearHistory();
-	htmlWin->EnableHistory(true);
+	// htmlWin->ClearHistory();
+	// htmlWin->EnableHistory();
 
-	AddPage(htmlWin, _("(Empty page)"));
 	SetSelection(GetPageCount() - 1);	
 
 	return htmlWin;

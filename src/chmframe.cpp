@@ -612,7 +612,8 @@ void CHMFrame::UpdateCHMInfo()
 			_menuFile->Enable(ID_Recent, TRUE);
 	}
 
-	_nbhtml->GetCurrentPage()->ClearHistory();
+	// _nbhtml->GetCurrentPage()->EnableHistory(false);
+	// _nbhtml->GetCurrentPage()->EnableHistory(true);
 	_csp->Reset();
 	_cip->Reset();
 
