@@ -21,7 +21,6 @@
 
 
 #include <chmindexpanel.h>
-#include <chmhtmlwindow.h>
 #include <chmlistctrl.h>
 #include <wx/sizer.h>
 
