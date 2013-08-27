@@ -136,7 +136,7 @@ public:
 	void UpdateCHMInfo();
 
 	//! Add html view
-	void AddHtmlView(const wxString& path, const wxString& link);
+	void AddHtmlView(const wxString& link);
 
 	//! Toggles fullscreen mode
 	void ToggleFullScreen(bool onlyIfFullScreenOn = false);

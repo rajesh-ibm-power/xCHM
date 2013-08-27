@@ -474,20 +474,12 @@ void CHMFrame::OnSelectionChanged(wxTreeEvent& event)
 	if(!data || data->_url.IsEmpty())
 		return;
 
-	_nbhtml->LoadPageInCurrentView(wxString(wxT("chmfs://")) + 
+	if(!_nbhtml->IsCaller()) {
+		_nbhtml->SyncTree(false); 
+		_nbhtml->LoadPageInCurrentView(wxString(wxT("chmfs://")) + 
 				       chmf->ArchiveName() +
 				       wxT(";protocol=xchm") + data->_url);
-
-
-	/*
-	if(!_nbhtml->GetCurrentPage()->IsCaller()) {
-		_nbhtml->GetCurrentPage()->SetSync(false); 
-		_nbhtml->LoadPageInCurrentView(wxString(wxT("file:")) + 
-					       chmf->ArchiveName() +
-					       wxT("#xchm:/") + data->_url); 
-		_nbhtml->GetCurrentPage()->SetSync(true);
 	}
-	*/
 }
 
 
@@ -947,9 +939,9 @@ bool CHMFrame::InitToolBar(wxToolBar *toolbar)
 }
 
 
-void CHMFrame::AddHtmlView(const wxString& path, const wxString& link)
+void CHMFrame::AddHtmlView(const wxString& link)
 {
-	_nbhtml->AddHtmlView(path, link);
+	_nbhtml->AddHtmlView(link);
 }
 
 

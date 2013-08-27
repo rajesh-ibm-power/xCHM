@@ -54,8 +54,7 @@ public:
 	CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc, CHMFrame* frame);
 
 	//! Add a notebook tab and display the specified URL
-	void AddHtmlView(const wxString& path,
-			 const wxString& link);
+	void AddHtmlView(const wxString& link);
 
 	//! Displays the URL in the current tab
 	bool LoadPageInCurrentView(const wxString& location);
@@ -77,6 +76,10 @@ public:
 
 	//! Overload for tab height control
 	virtual bool AddPage(wxWindow* page, const wxString& title);
+
+	void SyncTree(bool enable) { _syncTree = enable; }
+
+	bool IsCaller() const { return _isCaller; }
 
 protected:
 	//! Called when user asks for next notebook page
@@ -111,6 +114,8 @@ private:
 private:
 	wxTreeCtrl* _tcl;
 	CHMFrame *_frame;
+	bool _syncTree;
+	bool _isCaller;
 	DECLARE_EVENT_TABLE()
 };
 

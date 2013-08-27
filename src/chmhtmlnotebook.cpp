@@ -36,7 +36,7 @@ CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
 				 CHMFrame* frame)
 	: wxAuiNotebook(parent, -1, wxDefaultPosition, wxDefaultSize,
 			wxAUI_NB_DEFAULT_STYLE | wxAUI_NB_TAB_FIXED_WIDTH),
-	  _tcl(tc), _frame(frame)
+	  _tcl(tc), _frame(frame), _syncTree(true), _isCaller(false)
 {
 	const int NO_ACCELERATOR_ENTRIES = 3;
 
@@ -49,7 +49,7 @@ CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
 	this->SetAcceleratorTable(accel);
 	SetTabCtrlHeight(0);
 
-	AddHtmlView(wxEmptyString, wxT("memory:about.html"));
+	AddHtmlView(wxT("memory:about.html"));
 }
 
 
@@ -102,8 +102,7 @@ wxWebView* CHMHtmlNotebook::CreateView()
 }
 
 
-void CHMHtmlNotebook::AddHtmlView(const wxString& path,
-				  const wxString& link)
+void CHMHtmlNotebook::AddHtmlView(const wxString& link)
 {
 	wxWebView *htmlWin = CreateView();
 	
@@ -171,7 +170,7 @@ void CHMHtmlNotebook::OnCloseTab(wxCommandEvent& WXUNUSED(event))
 
 void CHMHtmlNotebook::OnNewTab(wxCommandEvent& WXUNUSED(event))
 {
-	AddHtmlView(wxEmptyString, wxEmptyString);
+	AddHtmlView(wxEmptyString);
 }
 
 
@@ -221,6 +220,25 @@ void CHMHtmlNotebook::OnTitleChanged(wxWebViewEvent& evt)
 
 void CHMHtmlNotebook::OnNavigating(wxWebViewEvent& evt)
 {
+	if(_syncTree) {
+
+		wxString page = evt.GetURL();
+
+		size_t pos = page.find(wxT("=xchm"));
+
+		if(pos != wxString::npos)
+			page = page.substr(pos + 5);
+
+		page = page.BeforeFirst(wxT('#'));
+
+		_isCaller = true;
+		Sync(_tcl->GetRootItem(), page);
+		_isCaller = false;
+
+	} else {
+		_syncTree = true;
+	}
+
 	std::cout << "Navigating: " << evt.GetURL().mb_str()
 		  << std::endl;
 }
@@ -262,17 +280,6 @@ void CHMHtmlNotebook::OnLoaded(wxWebViewEvent& evt)
 {
 	std::cout << "Document loaded: " << evt.GetURL().mb_str()
 		  << std::endl;
-
-	wxString page = evt.GetURL();
-
-	size_t pos = page.find(wxT("=xchm"));
-
-	if(pos != wxString::npos)
-		page = page.substr(pos + 5);
-
-	page = page.BeforeFirst(wxT('#'));
-
-	Sync(_tcl->GetRootItem(), page);
 }
 
 
