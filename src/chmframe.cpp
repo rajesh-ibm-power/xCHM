@@ -55,6 +55,8 @@
 #define COPY_HELP _("Copy selection.")
 #define FIND_HELP _("Find word in page.")
 #define FULLSCREEN_HELP _("Toggle fullscreen mode.")
+#define ZOOMIN_HELP _("Zoom in.")
+#define ZOOMOUT_HELP _("Zoom out.")
 #define CLOSETAB_HELP _("Close the current tab")
 #define NEWTAB_HELP _("Open a new tab")
 #define REGISTER_EXTENSION_HELP _("Associate the .chm file extension with xCHM.")
@@ -382,6 +384,82 @@ void CHMFrame::OnFullScreen(wxCommandEvent& WXUNUSED(event))
 {
 	_fullScreen = !_fullScreen;
 	ShowFullScreen(_fullScreen, wxFULLSCREEN_ALL);
+}
+
+
+void CHMFrame::OnZoomIn(wxCommandEvent& WXUNUSED(event))
+{
+	if(!_nbhtml)
+		return;
+
+	wxWebView *html = _nbhtml->GetCurrentPage();
+
+	if(!html)
+		return;
+
+	wxWebViewZoom zoom = html->GetZoom();
+
+	switch(zoom) {
+	case wxWEBVIEW_ZOOM_TINY:
+		zoom = wxWEBVIEW_ZOOM_SMALL;
+		break;
+
+	case wxWEBVIEW_ZOOM_SMALL:
+		zoom = wxWEBVIEW_ZOOM_MEDIUM;
+		break;
+
+	case wxWEBVIEW_ZOOM_MEDIUM:
+		zoom = wxWEBVIEW_ZOOM_LARGE;
+		break;
+
+	case wxWEBVIEW_ZOOM_LARGE:
+		zoom = wxWEBVIEW_ZOOM_LARGEST;
+		break;
+
+	case wxWEBVIEW_ZOOM_LARGEST:
+	default:
+		break;
+	}
+
+	html->SetZoom(zoom);
+}
+
+
+void CHMFrame::OnZoomOut(wxCommandEvent& WXUNUSED(event))
+{
+	if(!_nbhtml)
+		return;
+
+	wxWebView *html = _nbhtml->GetCurrentPage();
+
+	if(!html)
+		return;
+
+	wxWebViewZoom zoom = html->GetZoom();
+
+	switch(zoom) {
+
+	case wxWEBVIEW_ZOOM_LARGEST:
+		zoom = wxWEBVIEW_ZOOM_LARGE;
+		break;
+
+	case wxWEBVIEW_ZOOM_LARGE:
+		zoom = wxWEBVIEW_ZOOM_MEDIUM;
+		break;
+
+	case wxWEBVIEW_ZOOM_MEDIUM:
+		zoom = wxWEBVIEW_ZOOM_SMALL;
+		break;
+
+	case wxWEBVIEW_ZOOM_SMALL:
+		zoom = wxWEBVIEW_ZOOM_TINY;
+
+	case wxWEBVIEW_ZOOM_TINY:
+	default:
+		break;
+	}
+
+	html->SetZoom(zoom);
 }
 
 
@@ -726,6 +804,9 @@ wxMenuBar* CHMFrame::CreateMenu()
 	wxMenu *menuView = new wxMenu;
 	menuView->Append(ID_FullScreen, _("Toggle &fullscreen\tF11"),
 			 FULLSCREEN_HELP);
+	menuView->AppendSeparator();
+	menuView->Append(ID_ZoomIn, _("Zoom in\tCtrl-+"), ZOOMIN_HELP);
+	menuView->Append(ID_ZoomOut, _("Zoom out\tCtrl--"), ZOOMOUT_HELP);
 
 	wxMenuBar *menuBar = new wxMenuBar;
 	menuBar->Append(_menuFile, _("&File"));
@@ -987,6 +1068,8 @@ BEGIN_EVENT_TABLE(CHMFrame, wxFrame)
 	EVT_MENU(ID_NewTab, CHMFrame::OnNewTab)
 	EVT_MENU(ID_CopySelection, CHMFrame::OnCopySelection)
 	EVT_MENU(ID_FullScreen, CHMFrame::OnFullScreen)
+	EVT_MENU(ID_ZoomIn, CHMFrame::OnZoomIn)
+	EVT_MENU(ID_ZoomOut, CHMFrame::OnZoomOut)
 	EVT_BUTTON(ID_Add, CHMFrame::OnAddBookmark)
 	EVT_BUTTON(ID_Remove, CHMFrame::OnRemoveBookmark)
 	EVT_TREE_SEL_CHANGED(ID_TreeCtrl, CHMFrame::OnSelectionChanged)

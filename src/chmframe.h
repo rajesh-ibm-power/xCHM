@@ -77,6 +77,8 @@ enum
 	ID_CloseTab,
 	ID_NewTab,
 	ID_FullScreen,
+	ID_ZoomIn,
+	ID_ZoomOut,
 	ID_TreeCtrl = 1000,
 };
 
@@ -183,6 +185,12 @@ protected:
 
 	//! Called when fullscreen mode is being toggled
 	void OnFullScreen(wxCommandEvent& event);
+
+	//! Called when the user tries to zoom in
+	void OnZoomIn(wxCommandEvent& event);
+
+	//! Called when the user tries to zoom out
+	void OnZoomOut(wxCommandEvent& event);
 
 	//! Called when the user clicks on the Add button.
 	void OnAddBookmark(wxCommandEvent& event);
