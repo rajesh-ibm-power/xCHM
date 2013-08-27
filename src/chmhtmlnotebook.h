@@ -106,6 +106,9 @@ protected:
 	void OnIdle(wxIdleEvent& evt);
 
 private:
+	void Sync(wxTreeItemId root, const wxString& page);
+
+private:
 	wxTreeCtrl* _tcl;
 	CHMFrame *_frame;
 	DECLARE_EVENT_TABLE()

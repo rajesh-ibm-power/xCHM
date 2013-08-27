@@ -25,6 +25,7 @@
 #include <chmframe.h>
 #include <chmhtmlnotebook.h>
 #include <chmfshandler.h>
+#include <hhcparser.h>
 #include <wx/webviewfshandler.h>
 #include <wx/webviewarchivehandler.h>
 #include <wx/webview.h>
@@ -232,10 +233,46 @@ void CHMHtmlNotebook::OnNavigated(wxWebViewEvent& evt)
 }
 
 
+void CHMHtmlNotebook::Sync(wxTreeItemId root, const wxString& page)
+{
+        URLTreeItem *data = reinterpret_cast<URLTreeItem *>(
+                _tcl->GetItemData(root));
+
+        wxString url;
+
+        if(data)
+                url = (data->_url).BeforeFirst(wxT('#'));
+
+        if(data && !url.CmpNoCase(page)) {
+                _tcl->SelectItem(root);
+                return;
+        }
+
+        wxTreeItemIdValue cookie;
+        wxTreeItemId child = _tcl->GetFirstChild(root, cookie);
+
+        for(size_t i = 0; i < _tcl->GetChildrenCount(root, FALSE); ++i) {
+                Sync(child, page);
+                child = _tcl->GetNextChild(root, cookie);
+        }
+}
+
+
 void CHMHtmlNotebook::OnLoaded(wxWebViewEvent& evt)
 {
 	std::cout << "Document loaded: " << evt.GetURL().mb_str()
 		  << std::endl;
+
+	wxString page = evt.GetURL();
+
+	size_t pos = page.find(wxT("=xchm"));
+
+	if(pos != wxString::npos)
+		page = page.substr(pos + 5);
+
+	page = page.BeforeFirst(wxT('#'));
+
+	Sync(_tcl->GetRootItem(), page);
 }
 
 
