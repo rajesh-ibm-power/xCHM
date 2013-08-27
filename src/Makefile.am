@@ -3,15 +3,16 @@ AM_CPPFLAGS = -I$(top_srcdir)/art
 bin_PROGRAMS = xchm
 xchm_SOURCES = chmapp.cpp chmfile.cpp chmframe.cpp chmfshandler.cpp \
 	chminputstream.cpp chmhtmlnotebook.cpp chmsearchpanel.cpp \
-    chmhtmlwindow.cpp chmfinddialog.cpp chmindexpanel.cpp \
+    chmfinddialog.cpp chmindexpanel.cpp \
     chmlistctrl.cpp hhcparser.cpp
 
 noinst_HEADERS = chmapp.h chmfile.h chmframe.h chmfshandler.h \
 	chminputstream.h chmhtmlnotebook.h chmsearchpanel.h \
-    chmhtmlwindow.h bitfiddle.inl chmfinddialog.h chmindexpanel.h \
+    bitfiddle.inl chmfinddialog.h chmindexpanel.h \
     chmlistctrl.h hhcparser.h
 
 xchm_LDADD= @LINKOPT@ 
+#-lwx_gtk2u_aui-2.9
 #xchm_LDFLAGS=-pg
 
 #all-local:
