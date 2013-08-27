@@ -992,6 +992,8 @@ namespace {
 #include <copy.xpm>
 #include <find.xpm>
 #include <fullscreen.xpm>
+#include <zoomin.xpm>
+#include <zoomout.xpm>
 
 } // namespace
 
@@ -1012,6 +1014,13 @@ bool CHMFrame::InitToolBar(wxToolBar *toolbar)
 	toolbar->AddTool(ID_FindInPage, _("Find"), 
 			wxBitmap(find_xpm), FIND_HELP);
 	
+	toolbar->AddSeparator();
+
+	toolbar->AddTool(ID_ZoomIn, _("Zoom in"),
+			wxBitmap(zoomin_xpm), ZOOMIN_HELP);
+	toolbar->AddTool(ID_ZoomOut, _("Zoom out"),
+			wxBitmap(zoomout_xpm), ZOOMOUT_HELP);
+
 	toolbar->AddSeparator();
 	
 	toolbar->AddTool(ID_FullScreen, _("Fullscreen"),
