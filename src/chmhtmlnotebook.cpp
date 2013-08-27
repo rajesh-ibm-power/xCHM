@@ -244,16 +244,11 @@ void CHMHtmlNotebook::OnNavigating(wxWebViewEvent& evt)
 	} else {
 		_syncTree = true;
 	}
-
-	std::cout << "Navigating: " << evt.GetURL().mb_str()
-		  << std::endl;
 }
 
 
-void CHMHtmlNotebook::OnNavigated(wxWebViewEvent& evt)
+void CHMHtmlNotebook::OnNavigated(wxWebViewEvent& /* evt */)
 {
-	std::cout << "Navigated: " << evt.GetURL().mb_str()
-		  << std::endl;
 }
 
 
@@ -286,8 +281,12 @@ void CHMHtmlNotebook::OnLoaded(wxWebViewEvent& evt)
 {
 	_frame->UpdateHistoryTools();
 
-	std::cout << "Document loaded: " << evt.GetURL().mb_str()
-		  << std::endl;
+	wxStatusBar *sb = _frame->GetStatusBar();
+
+	if(!sb)
+		return;
+
+	sb->SetStatusText(wxString(_("Loaded document: ")) + evt.GetURL());
 }
 
 
@@ -317,10 +316,16 @@ void CHMHtmlNotebook::OnLoadError(wxWebViewEvent& evt)
 		WX_ERROR_CASE(wxWEBVIEW_NAV_ERR_OTHER);
 	}
 
+	wxStatusBar *sb = _frame->GetStatusBar();
 
-	std::cout << "Error; url='" << evt.GetURL().mb_str()
-		  << "', error='" << category.mb_str() << " ("
-		  << evt.GetString().mb_str() << ")'" << std::endl;
+	if(!sb)
+		return;
+
+	wxString status = wxString(_("Error; url='")) + evt.GetURL()
+		+ _("', error='") + category + wxT(" (")
+		+ evt.GetString() + wxT(")'");
+
+	sb->SetStatusText(status);
 }
 
 
