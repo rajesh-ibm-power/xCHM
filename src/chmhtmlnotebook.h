@@ -106,6 +106,8 @@ protected:
 
 	void OnLoaded(wxWebViewEvent& evt);
 
+	void OnNewWindow(wxWebViewEvent& evt);
+
 	void OnIdle(wxIdleEvent& evt);
 
 private:

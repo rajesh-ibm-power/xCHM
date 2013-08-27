@@ -83,6 +83,10 @@ wxWebView* CHMHtmlNotebook::CreateView()
 		wxWebViewEventHandler(CHMHtmlNotebook::OnLoaded),
 		NULL, this);
 
+	Connect(htmlWin->GetId(), wxEVT_WEBVIEW_NEWWINDOW,
+		wxWebViewEventHandler(CHMHtmlNotebook::OnNewWindow),
+		NULL, this);
+
 	Connect(wxID_ANY, wxEVT_IDLE,
 		wxIdleEventHandler(CHMHtmlNotebook::OnIdle),
 		NULL, this);
@@ -279,6 +283,13 @@ void CHMHtmlNotebook::Sync(wxTreeItemId root, const wxString& page)
 void CHMHtmlNotebook::OnLoaded(wxWebViewEvent& evt)
 {
 	std::cout << "Document loaded: " << evt.GetURL().mb_str()
+		  << std::endl;
+}
+
+
+void CHMHtmlNotebook::OnNewWindow(wxWebViewEvent& evt)
+{
+	std::cout << "New window: " << evt.GetURL().mb_str()
 		  << std::endl;
 }
 
