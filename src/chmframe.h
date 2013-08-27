@@ -141,6 +141,9 @@ public:
 	//! Toggles fullscreen mode
 	void ToggleFullScreen(bool onlyIfFullScreenOn = false);
 
+	//! Enables / disables the history navigation buttons as necessary
+	void UpdateHistoryTools();
+
 protected:
 	//! Called when the user closes the window.
 	void OnQuit(wxCommandEvent& event);

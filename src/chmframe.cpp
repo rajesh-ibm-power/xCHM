@@ -164,8 +164,7 @@ CHMFrame::CHMFrame(const wxString& title, const wxString& booksDir,
 
 	wxFileSystem::AddHandler(new wxMemoryFSHandler);
 	wxBitmap bitmap(logo_xpm);
-	wxMemoryFSHandler::AddFile(wxT("logo.xpm"), bitmap, //wxBITMAP(logo), 
-				   //wxBITMAP_TYPE_XPM);
+	wxMemoryFSHandler::AddFile(wxT("logo.xpm"), bitmap,
 				   wxBITMAP_TYPE_PNG);
 	wxMemoryFSHandler::AddFile(wxT("about.html"), greeting);
 	wxMemoryFSHandler::AddFile(wxT("error.html"), error_page);
@@ -654,6 +653,21 @@ void CHMFrame::UpdateCHMInfo()
 
 	// select Contents
 	_nb->SetSelection(0);	
+}
+
+
+void CHMFrame::UpdateHistoryTools()
+{
+	if(!_nbhtml)
+		return;
+
+	wxWebView *html = _nbhtml->GetCurrentPage();
+
+	if(!html)
+		return;
+
+	_tb->EnableTool(ID_Forward, html->CanGoForward());
+	_tb->EnableTool(ID_Back, html->CanGoBack());
 }
 
 

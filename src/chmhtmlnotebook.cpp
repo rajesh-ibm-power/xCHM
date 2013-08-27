@@ -211,6 +211,8 @@ bool CHMHtmlNotebook::AddPage(wxWindow* page, const wxString& title)
 
 void CHMHtmlNotebook::OnPageChanged(wxAuiNotebookEvent&)
 {
+	_frame->UpdateHistoryTools();
+
 	if(GetPageCount() == 1)
 		SetTabCtrlHeight(0);
 }
@@ -282,6 +284,8 @@ void CHMHtmlNotebook::Sync(wxTreeItemId root, const wxString& page)
 
 void CHMHtmlNotebook::OnLoaded(wxWebViewEvent& evt)
 {
+	_frame->UpdateHistoryTools();
+
 	std::cout << "Document loaded: " << evt.GetURL().mb_str()
 		  << std::endl;
 }
