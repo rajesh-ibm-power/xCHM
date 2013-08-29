@@ -1,6 +1,5 @@
 src/chmfile.cpp
 src/chmfinddialog.cpp
 src/chmframe.cpp
-src/chmhtmlwindow.cpp
 src/chmsearchpanel.cpp
 src/hhcparser.cpp
