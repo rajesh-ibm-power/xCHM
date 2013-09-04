@@ -221,6 +221,8 @@ void CHMHtmlNotebook::OnPageChanged(wxAuiNotebookEvent&)
 void CHMHtmlNotebook::OnTitleChanged(wxWebViewEvent& evt)
 {
 	SetPageText(GetSelection(), evt.GetString());
+	_frame->SetTitle(wxString(wxT("xCHM v. " VERSION ": "))
+			 + evt.GetString());
 }
 
 
