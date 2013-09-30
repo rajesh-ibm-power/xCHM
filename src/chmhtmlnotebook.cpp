@@ -46,7 +46,7 @@ CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
 	entries[2].Set(wxACCEL_NORMAL, WXK_ESCAPE,     ID_OutOfFullScreen);
 
 	wxAcceleratorTable accel(NO_ACCELERATOR_ENTRIES, entries);
-	this->SetAcceleratorTable(accel);
+	SetAcceleratorTable(accel);
 	SetTabCtrlHeight(0);
 
 	AddHtmlView(wxT("memory:about.html"));
@@ -56,6 +56,8 @@ CHMHtmlNotebook::CHMHtmlNotebook(wxWindow *parent, wxTreeCtrl *tc,
 wxWebView* CHMHtmlNotebook::CreateView()
 {
 	wxWebView* htmlWin = wxWebView::New(this, wxID_ANY);
+
+	AddPage(htmlWin, _("(Empty page)"));
 
 	htmlWin->RegisterHandler(wxSharedPtr<wxWebViewHandler>(
 					 new wxWebViewFSHandler("memory")));
@@ -91,16 +93,11 @@ wxWebView* CHMHtmlNotebook::CreateView()
 		wxIdleEventHandler(CHMHtmlNotebook::OnIdle),
 		NULL, this);
 
-	AddPage(htmlWin, _("(Empty page)"));
-
 	// It would have been better to give the URL directly to
 	// wxWebView::New(), but file: and memory: handlers need to be
 	// registered before anything useful is loaded. So, remove the
 	// about:blank page.
-	// htmlWin->ClearHistory();
-	// htmlWin->EnableHistory();
-
-	SetSelection(GetPageCount() - 1);	
+	htmlWin->ClearHistory();
 
 	return htmlWin;
 }
@@ -294,8 +291,7 @@ void CHMHtmlNotebook::OnLoaded(wxWebViewEvent& evt)
 
 void CHMHtmlNotebook::OnNewWindow(wxWebViewEvent& evt)
 {
-	std::cout << "New window: " << evt.GetURL().mb_str()
-		  << std::endl;
+	AddHtmlView(evt.GetURL());
 }
 
 
