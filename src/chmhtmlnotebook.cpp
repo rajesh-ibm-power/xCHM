@@ -291,7 +291,14 @@ void CHMHtmlNotebook::OnLoaded(wxWebViewEvent& evt)
 
 void CHMHtmlNotebook::OnNewWindow(wxWebViewEvent& evt)
 {
+	wxWebView *html = GetCurrentPage();
+
+	if(!html)
+		return;
+
+	wxWebViewZoom zoom = html->GetZoom();
 	AddHtmlView(evt.GetURL());
+	GetCurrentPage()->SetZoom(zoom);
 }
 
 
