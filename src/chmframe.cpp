@@ -124,7 +124,7 @@ CHMFrame::CHMFrame(const wxString& title, const wxString& booksDir,
 		   const wxPoint& pos, const wxSize& size,
 		   const int sashPosition, const wxString& fullAppPath,
 		   bool loadTopics, bool loadIndex)
-	: wxFrame(NULL, -1, title, pos, size),
+	: wxFrame(NULL, -1, title, pos, size), _nbhtml(NULL),
 	  _tcl(NULL), _sw(NULL), _menuFile(NULL), _tb(NULL), _nb(NULL),
 	  _cb(NULL), _csp(NULL), _cip(NULL), _openPath(booksDir),
 	  _bookmarkSel(true), _bookmarksDeleted(false), _sashPos(sashPosition),
