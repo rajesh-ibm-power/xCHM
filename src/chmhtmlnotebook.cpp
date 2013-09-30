@@ -197,7 +197,7 @@ bool CHMHtmlNotebook::AddPage(wxWindow* page, const wxString& title)
 	if(!page)
 		return false;
 
-	bool st = wxAuiNotebook::AddPage(page, title);
+	bool st = wxAuiNotebook::AddPage(page, title, true);
 
 	if(GetPageCount() == 2)
 		SetTabCtrlHeight(-1);
