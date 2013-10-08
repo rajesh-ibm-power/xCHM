@@ -11,9 +11,10 @@ noinst_HEADERS = chmapp.h chmfile.h chmframe.h chmfshandler.h \
     bitfiddle.inl chmfinddialog.h chmindexpanel.h \
     chmlistctrl.h hhcparser.h
 
-xchm_LDADD= @LINKOPT@ 
-#-lwx_gtk2u_aui-2.9
+xchm_LDADD= @LINKOPT@
+#-lwx_gtk2u_aui-3.0
 #xchm_LDFLAGS=-pg
+#xchm_LDFLAGS=-Wl,-rpath,/home/red/opt/lib
 
 #all-local:
 #	@REZ_COMMAND@
