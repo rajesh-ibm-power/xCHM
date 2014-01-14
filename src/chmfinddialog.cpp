@@ -1,20 +1,20 @@
 /*
 
   Copyright (C) 2003 - 2014  Razvan Cojocaru <rzvncj@gmail.com>
- 
+
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
   MA 02110-1301, USA.
 
 */
@@ -34,9 +34,9 @@ CHMFindDialog::CHMFindDialog(wxWindow *parent, wxWebView *toSearch)
 	  _html(toSearch), _cell(NULL), _matchCase(false), _wholeWord(false)
 {
 	wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-	
-	_text = new wxTextCtrl(this, ID_TextFind, wxEmptyString, 
-			       wxDefaultPosition, wxSize(200, -1), 
+
+	_text = new wxTextCtrl(this, ID_TextFind, wxEmptyString,
+			       wxDefaultPosition, wxSize(200, -1),
 			       wxTE_PROCESS_ENTER);
 
 	_whole = new wxCheckBox(this, -1, _("Whole words only"));
@@ -50,7 +50,7 @@ CHMFindDialog::CHMFindDialog(wxWindow *parent, wxWebView *toSearch)
 	wxButton *find = new wxButton(this, ID_FindNext, _("Find next"));
 
 	szButtons->Add(find, 1, wxLEFT | wxRIGHT | wxTOP | wxEXPAND, 5);
-	szButtons->Add(new wxButton(this, wxID_CANCEL, _("Cancel")), 
+	szButtons->Add(new wxButton(this, wxID_CANCEL, _("Cancel")),
 		       1, wxLEFT | wxRIGHT | wxTOP | wxEXPAND, 5);
 
 	wxSizer *topsizer = new wxBoxSizer(wxHORIZONTAL);
@@ -78,7 +78,7 @@ void CHMFindDialog::OnFind(wxCommandEvent& WXUNUSED(event))
 
 	wxString sr = _text->GetLineText(0);
 	if (sr.IsEmpty())
-		return;	
+		return;
 
 	int flags = wxWEBVIEW_FIND_HIGHLIGHT_RESULT | wxWEBVIEW_FIND_WRAP;
 
@@ -89,14 +89,14 @@ void CHMFindDialog::OnFind(wxCommandEvent& WXUNUSED(event))
 	_matchCase = _case->IsChecked();
 	_wholeWord = _whole->IsChecked();
 	_searchTerm = sr;
-	
+
 	if(_matchCase)
 		flags |= wxWEBVIEW_FIND_MATCH_CASE;
 
 	if(_wholeWord)
 		flags |= wxWEBVIEW_FIND_ENTIRE_WORD;
 
-	if(reset) {	
+	if(reset) {
 		_html->Find(wxEmptyString);
 		_html->Find(sr, flags);
 	}
@@ -124,5 +124,4 @@ END_EVENT_TABLE()
 */
 
 // vim:shiftwidth=8:autoindent:tabstop=8:noexpandtab:softtabstop=8
-
 

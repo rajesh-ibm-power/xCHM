@@ -3,20 +3,20 @@
   Copyright (C) 2003 - 2014  Razvan Cojocaru <rzvncj@gmail.com>
   Tabbed browsing support developed by Cedric Boudinet <bouced@gmx.fr>
   (this file originally written by Cedric Boudinet)
- 
+
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
   MA 02110-1301, USA.
 
 */
@@ -64,7 +64,7 @@ wxWebView* CHMHtmlNotebook::CreateView()
 
 	htmlWin->RegisterHandler(wxSharedPtr<wxWebViewHandler>(
 					 new wxWebViewArchiveHandler("chmfs")));
-	
+
 	Connect(htmlWin->GetId(), wxEVT_WEBVIEW_TITLE_CHANGED,
 		wxWebViewEventHandler(CHMHtmlNotebook::OnTitleChanged),
 		NULL, this);
@@ -106,7 +106,7 @@ wxWebView* CHMHtmlNotebook::CreateView()
 void CHMHtmlNotebook::AddHtmlView(const wxString& link)
 {
 	wxWebView *htmlWin = CreateView();
-	
+
 	if(htmlWin)
 		htmlWin->LoadURL(link);
 }
@@ -308,7 +308,7 @@ void CHMHtmlNotebook::OnLoadError(wxWebViewEvent& evt)
 	case type:				\
 		category = #type;		\
 		break;
-	
+
 	wxString category;
 	switch (evt.GetInt()) {
 		WX_ERROR_CASE(wxWEBVIEW_NAV_ERR_CONNECTION);

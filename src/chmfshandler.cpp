@@ -1,20 +1,20 @@
 /*
 
   Copyright (C) 2003 - 2014  Razvan Cojocaru <rzvncj@gmail.com>
- 
+
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
   MA 02110-1301, USA.
 
 */
@@ -47,7 +47,7 @@ bool CHMFSHandler::CanOpen(const wxString& location)
 }
 
 
-wxFSFile* CHMFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs), 
+wxFSFile* CHMFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs),
 				 const wxString& location)
 {
 	wxString chmFile = GetLeftLocation(location);
@@ -66,11 +66,11 @@ wxFSFile* CHMFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs),
 	urlFile.Replace(wxT("%2E"), wxT("."), TRUE);
 	urlFile.Replace(wxT("%2D"), wxT("-"), TRUE);
 	urlFile.Replace(wxT("%26"), wxT("&"), TRUE);
-            
+
 	wxFileName filename = wxFileSystem::URLToFileName(chmFile);
 	filename.Normalize();
 
-	CHMInputStream *s = new CHMInputStream(chmFile.IsEmpty() ? 
+	CHMInputStream *s = new CHMInputStream(chmFile.IsEmpty() ?
 		chmFile : filename.GetFullPath(), urlFile);
 
 	if (s && s->IsOk()) {
@@ -91,7 +91,7 @@ wxFSFile* CHMFSHandler::OpenFile(wxFileSystem& WXUNUSED(fs),
 				    GetAnchor(location),
 				    wxDateTime((time_t)-1));
 	}
-    
+
 	delete s;
 	return NULL;
 }
