@@ -215,18 +215,18 @@ bool CHMSearchPanel::TitleSearch(const wxString& title, wxString& text,
 					continue;
 
 				j = 0;
-				while(buf1[i + j] == buf2[j] && j < wrd)
+				while(j < wrd && buf1[i + j] == buf2[j])
 					++j;
 
-				if (j == wrd && (WHITESPACE(buf1[i + j]) ||
-						 i+j == lng))
+				if(j == wrd && (WHITESPACE(buf1[i + j]) ||
+						i+j == lng))
 					if(i == 0 || WHITESPACE(buf1[i - 1])) {
 						found = TRUE;
 						break;
 					}
 			}
 		} else {
-			for (i = 0; i < lng - wrd + 1; ++i) {
+			for(i = 0; i < lng - wrd + 1; ++i) {
 
 				j = 0;
 				while ((j < wrd) &&
