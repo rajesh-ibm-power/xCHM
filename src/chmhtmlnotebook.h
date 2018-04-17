@@ -37,6 +37,8 @@ enum {
 
 // Forward declarations
 class CHMFrame;
+class wxWebView;
+class wxWebViewEvent;
 
 
 /*!

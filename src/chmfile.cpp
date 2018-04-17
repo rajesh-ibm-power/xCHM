@@ -639,7 +639,7 @@ bool CHMFile::GetIndex(CHMListCtrl* toBuild)
 	if(!toBuild)
 		return false;
 
-	std::auto_ptr<wxCSConv> cvPtr;
+	std::unique_ptr<wxCSConv> cvPtr;
 	createCSConvPtr(cvPtr, _enc);
 
 	toBuild->Freeze();
@@ -1055,7 +1055,7 @@ bool CHMFile::ProcessWLC(uint64_t wlc_count, uint64_t wlc_size,
 			if(_enc == wxFONTENCODING_SYSTEM)
 				topic = CURRENT_CHAR_STRING(combuf);
 			else {
-				std::auto_ptr<wxCSConv> cvPtr;
+				std::unique_ptr<wxCSConv> cvPtr;
 				createCSConvPtr(cvPtr, _enc);
 				topic = wxString((const char *)combuf, *cvPtr);
 			}

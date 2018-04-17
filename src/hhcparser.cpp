@@ -173,6 +173,7 @@ void HHCParser::parse(const char* chunk)
 				++chunk;
 				continue;
 			}
+			// Fallthrough
 
 		case '>':
 			if(!_inquote) {

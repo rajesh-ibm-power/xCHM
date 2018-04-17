@@ -23,7 +23,6 @@
 
 */
 
-
 #include <chmframe.h>
 #include <chminputstream.h>
 #include <chmsearchpanel.h>
@@ -41,6 +40,7 @@
 #include <wx/bitmap.h>
 #include <wx/fs_mem.h>
 #include <wx/utils.h>
+#include <wx/webview.h>
 
 #include <wx/busyinfo.h>
 
@@ -605,9 +605,9 @@ bool CHMFrame::LoadCHM(const wxString& archive)
 	   !archive.Contains(wxT("=xchm"))) {
 
 		wxFileSystem wfs;
-		std::auto_ptr<wxFSFile> p(wfs.OpenFile(wxString(wxT("file:")) +
-						       archive +
-						       wxT("#xchm:/")));
+		std::unique_ptr<wxFSFile> p(wfs.OpenFile(wxString(wxT("file:")) +
+						         archive +
+						         wxT("#xchm:/")));
 
 	        CHMFile *chmf = CHMInputStream::GetCache();
 
@@ -626,7 +626,7 @@ bool CHMFrame::LoadCHM(const wxString& archive)
 	if(!rtn) { // Error, could not load CHM file
 		if(_tcl->GetCount())
 			_tcl->Unselect();
-			_tcl->DeleteChildren(_tcl->GetRootItem());
+		_tcl->DeleteChildren(_tcl->GetRootItem());
 		if(_sw->IsSplit()) {
 			_sw->Unsplit(_nb);
 			_nb->Show(FALSE);
