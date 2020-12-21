@@ -1,3 +1,6 @@
+arch:
+  - amd64
+  - ppc64le
 matrix:
   include:
     # works on Precise and Trusty
